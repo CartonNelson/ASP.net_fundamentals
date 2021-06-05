@@ -1,0 +1,28 @@
+﻿td, th {
+    text-align:center;
+}
+
+.div-grilla{
+    margin-left:5%;
+    margin-right:5%;
+}
+/*------------------------------------------*/
+.table-condensed tr th {
+    border: 0px solid #428bca;
+    color: white;
+    background-color: #428bca;
+}
+
+.table-condensed, .table-condensed tr td {
+    border: 0px solid #000;
+}
+
+tr:nth-child(even) {
+    background: #f7fdff
+}
+
+tr:nth-child(odd) {
+    background: #fff;
+}
+/*------------------------------------------*/
+
