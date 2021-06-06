@@ -10,6 +10,7 @@
           <asp:label runat="server" for="inputNombre">Apellido y Nombre</asp:label>
           <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="">
         </div>
+
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selPais">Pais</asp:label>
              <select class="form-control" id="selPais">
@@ -19,6 +20,7 @@
                 <option>Chile</option>
             </select>
         </div>
+
         <div runat="server" class="form-group col-md-4">
          <asp:label runat="server" for="inputLocal">Localidad</asp:label>
          <input runat="server" type="text" class="form-control" id="inputLocal" placeholder="">
@@ -28,15 +30,19 @@
         <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="inputFingDesde">Fecha ingreso desde</asp:label>
-          <input  runat="server" type="date" class="form-control" id="inputFingDesde" placeholder="">
+         <input  runat="server" type="date" class="form-control" ID="inputFingDesde" placeholder="" value="">
+         <asp:CustomValidator ID="FingDesdeValidator"  OnServerValidate="ValidarFechas" ControlToValidate="inputFingDesde"  runat="server"></asp:CustomValidator>                
+
         </div>
+        
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="inputFingHasta">Fecha ingreso hasta</asp:label>
           <input  runat="server" type="date" class="form-control" id="inputFingHasta" placeholder="">
         </div>
+
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selCinterno">Contacto interno</asp:label>
-         <select class="form-control" id="selCinterno">
+         <select runat="server" class="form-control" id="selCinterno"   onchange="">
                 <option>Todos</option>
                 <option>SI</option>
                 <option>NO</option>
@@ -49,6 +55,7 @@
           <asp:label  runat="server" for="inputOrg">Organizacion</asp:label>
           <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder="">
         </div>
+
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select class="form-control" id="selArea">
@@ -59,6 +66,7 @@
                 <option>Operaciones</option>
             </select>
         </div>
+
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
             <select class="form-control" id="selActivo">
@@ -75,14 +83,20 @@
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
-               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Buscar" OnClick="Consultar"></asp:Button>
+               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Buscar" ValidationGroup="ValidarCampos" OnClick="Consultar"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Nuevo Contacto" OnClick="redirigir"></asp:Button>
 
            </div> 
           
       </div>  
-      
+
     </form>
+ 
+</div>
+    <div runat="server"  class="container" >
+    <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
+      <p>Error al filtrar busqueda: <%=msjVal%></p> 
+    </div>
 </div>
 </asp:Content>
 <asp:Content ID="BodyGrilla" ContentPlaceHolderID="ContentGrilla" runat="server">

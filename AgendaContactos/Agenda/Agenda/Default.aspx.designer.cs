@@ -42,6 +42,15 @@ namespace Agenda
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputFingDesde;
 
         /// <summary>
+        /// Control FingDesdeValidator.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator FingDesdeValidator;
+
+        /// <summary>
         /// Control inputFingHasta.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace Agenda
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputFingHasta;
+
+        /// <summary>
+        /// Control selCinterno.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect selCinterno;
 
         /// <summary>
         /// Control inputOrg.
@@ -67,6 +85,15 @@ namespace Agenda
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton limpiarFiltrosBtn;
+
+        /// <summary>
+        /// Control ErrorContainer.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ErrorContainer;
 
         /// <summary>
         /// Control GridContactos.

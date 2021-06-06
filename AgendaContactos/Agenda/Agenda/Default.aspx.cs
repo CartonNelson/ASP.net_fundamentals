@@ -11,6 +11,7 @@ namespace Agenda
 {
     public partial class _Default : Page
     {
+        public String msjVal = "";
         private void print(List<Contacto> ContactList)
         {
             foreach (Contacto c in ContactList)
@@ -23,7 +24,18 @@ namespace Agenda
         {
             try {
 
+                if (!Page.IsPostBack)
+                {
+                    inicializarFiltro();
+                }
                 
+
+
+
+                //string text = "SI";
+                //var item = selCinterno.Items.FindByText(text);
+                //if (item != null)
+                //    item.Selected = true;
 
             }
             catch (Exception ex)
@@ -39,10 +51,23 @@ namespace Agenda
         }
         protected void Consultar(Object sender, EventArgs e)
         {
-            List<Contacto> lista = (List<Contacto>)Application["ContactList"];
             
-            GridContactos.DataSource = lista;
-            GridContactos.DataBind();
+
+            Page.Validate();
+            if (Page.IsValid)
+            {
+                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+                List<Contacto> lista = (List<Contacto>)Application["ContactList"];
+
+                GridContactos.DataSource = lista;
+                GridContactos.DataBind();
+
+            }
+            else
+            {
+                GridContactos.DataSource = null;
+                GridContactos.DataBind();
+            }
         }
         
         protected void redirigir(Object sender, EventArgs e)
@@ -50,5 +75,37 @@ namespace Agenda
             Response.Redirect("formCreateUpdate.aspx");
         }
 
+        protected void inicializarFiltro()
+        {
+            DateTime currentDate = DateTime.Now;
+            currentDate = currentDate.AddDays(-30);
+            String newDate = currentDate.ToString("yyyy-MM-dd");
+            inputFingDesde.Value = newDate;
+             
+            inputFingHasta.Value = DateTime.Now.ToString("yyyy-MM-dd");
+
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+        }
+
+        
+        public void ValidarFechas(object source, ServerValidateEventArgs Direccion)
+        {
+            DateTime fDesde = Convert.ToDateTime(inputFingDesde.Value);
+            DateTime fHasta = Convert.ToDateTime(inputFingHasta.Value);
+            int result = DateTime.Compare(fDesde, fHasta);
+            if (result > 0)
+            {
+                msjVal = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
+                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+            }
+            Direccion.IsValid = result <= 0;// ? true : false;
+        }
+
+        public void ConInternoAction(Object sender, EventArgs e)
+        {
+            //String s = "HOLA";
+            msjVal = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+        }
     }
 }
