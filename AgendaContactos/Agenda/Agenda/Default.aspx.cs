@@ -27,8 +27,12 @@ namespace Agenda
                 if (!Page.IsPostBack)
                 {
                     inicializarFiltro();
+                    ClientScriptManager cs = Page.ClientScript;
+                    this.selCinterno.Attributes.Add("onchange", cs.GetPostBackEventReference(this.selCinterno, this.selCinterno.ID));//no funcionaba el onChange
+                    
+
                 }
-                
+
 
 
 
@@ -88,7 +92,7 @@ namespace Agenda
         }
 
         
-        public void ValidarFechas(object source, ServerValidateEventArgs Direccion)
+        public void ValidarFechas(object source, ServerValidateEventArgs Fechas)
         {
             DateTime fDesde = Convert.ToDateTime(inputFingDesde.Value);
             DateTime fHasta = Convert.ToDateTime(inputFingHasta.Value);
@@ -98,14 +102,40 @@ namespace Agenda
                 msjVal = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
             }
-            Direccion.IsValid = result <= 0;// ? true : false;
+            Fechas.IsValid = result <= 0;// ? true : false;
         }
 
-        public void ConInternoAction(Object sender, EventArgs e)
+        public void ConInternoAction(object sender, EventArgs e)
         {
-            //String s = "HOLA";
-            msjVal = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
-            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+            String sel = selCinterno.Items[selCinterno.SelectedIndex].Text;
+            if (sel == "SI")
+            {
+                //inputOrg.Attributes["enabled"] = "disabled";
+                inputOrg.Attributes.Remove("enabled");
+                inputOrg.Attributes.Add("disabled", "true");
+                inputOrg.Value = "";
+                //Area
+                selArea.Attributes.Remove("disabled");
+                selArea.Attributes.Add("enabled", "true");
+            }
+            else
+            {
+                inputOrg.Attributes.Remove("disabled");
+                inputOrg.Attributes.Add("enabled", "true");
+                //Area
+                selArea.Attributes.Remove("enabled");
+                selArea.Attributes.Add("disabled", "true");
+
+            }
+        }
+        public void ResetCint(object sender, EventArgs e)
+        {
+
+
+            var item = selCinterno.Items.FindByText("Todos");
+            if (item != null)
+                item.Selected = true;
+           
         }
     }
 }

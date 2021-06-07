@@ -3,7 +3,7 @@
 <asp:Content ID="BodyForm" ContentPlaceHolderID="ContentForm" runat="server">
     <div runat="server" class="container">
     <br />
-    <form id="FilterForm">
+    <form  id="FilterForm">
       <%-- Nivel 1 --%>  
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
@@ -42,7 +42,7 @@
 
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selCinterno">Contacto interno</asp:label>
-         <select runat="server" class="form-control" id="selCinterno"   onchange="">
+         <select runat="server" class="form-control" id="selCinterno" onserverchange="ConInternoAction" >
                 <option>Todos</option>
                 <option>SI</option>
                 <option>NO</option>
@@ -52,13 +52,13 @@
       <%-- Nivel 3 --%>
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
-          <asp:label  runat="server" for="inputOrg">Organizacion</asp:label>
+          <asp:label  runat="server" for="inputOrg" ID="lblOrganizacion">Organizacion</asp:label>
           <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder="">
         </div>
 
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
-          <select class="form-control" id="selArea">
+          <select runat="server"  class="form-control" id="selArea" disabled>
                 <option>Todos</option>
                 <option>Marketing</option>
                 <option>Finanzas</option>
@@ -79,7 +79,7 @@
       <%-- Botones --%>
       <div class="form-row"  runat="server">
            <div class="form-group col-md-8"  runat="server">
-               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png" OnClientClick="this.form.reset();return false;"/>
+               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png" onClientClick="this.form.reset(); return false;" />
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
