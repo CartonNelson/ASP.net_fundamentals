@@ -12,34 +12,31 @@ namespace Agenda
     public partial class _Default : Page
     {
         public String msjVal = "";
-        private void print(List<Contacto> ContactList)
-        {
-            foreach (Contacto c in ContactList)
-            {
-                Response.Write(string.Concat("Id: ", c.ID_contacto, ", Apellido y Nombre:", c.ApellidoNombre, ", Genero:", c.Genero, ", Pais:", c.Pais));
-                Response.Write("<BR/>");
-            }
-        }
+        public const String CREACION = "NEW";
+        public const String MODIFICACION = "EDIT";
+        public const String CONSULTA = "INFO";
+
+        //private void print(List<Contacto> ContactList)
+        //{
+        //    foreach (Contacto c in ContactList)
+        //    {
+        //        Response.Write(string.Concat("Id: ", c.ID_contacto, ", Apellido y Nombre:", c.ApellidoNombre, ", Genero:", c.Genero, ", Pais:", c.Pais));
+        //        Response.Write("<BR/>");
+        //    }
+        //}
         protected void Page_Load(object sender, EventArgs e)
         {
             try {
+                inicializarFiltro();
 
-                if (!Page.IsPostBack)
+                 if (!Page.IsPostBack)
                 {
-                    inicializarFiltro();
-                    ClientScriptManager cs = Page.ClientScript;
-                    this.selCinterno.Attributes.Add("onchange", cs.GetPostBackEventReference(this.selCinterno, this.selCinterno.ID));//no funcionaba el onChange
-                    
 
+                    
+                    
                 }
 
 
-
-
-                //string text = "SI";
-                //var item = selCinterno.Items.FindByText(text);
-                //if (item != null)
-                //    item.Selected = true;
 
             }
             catch (Exception ex)
@@ -76,6 +73,7 @@ namespace Agenda
         
         protected void redirigir(Object sender, EventArgs e)
         {
+            Application["Modo"] = CREACION;
             Response.Redirect("formCreateUpdate.aspx");
         }
 
@@ -84,9 +82,9 @@ namespace Agenda
             DateTime currentDate = DateTime.Now;
             currentDate = currentDate.AddDays(-30);
             String newDate = currentDate.ToString("yyyy-MM-dd");
-            inputFingDesde.Value = newDate;
+            this.inputFingDesde.Value = newDate;
              
-            inputFingHasta.Value = DateTime.Now.ToString("yyyy-MM-dd");
+            this.inputFingHasta.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
             ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
         }
@@ -105,37 +103,7 @@ namespace Agenda
             Fechas.IsValid = result <= 0;// ? true : false;
         }
 
-        public void ConInternoAction(object sender, EventArgs e)
-        {
-            String sel = selCinterno.Items[selCinterno.SelectedIndex].Text;
-            if (sel == "SI")
-            {
-                //inputOrg.Attributes["enabled"] = "disabled";
-                inputOrg.Attributes.Remove("enabled");
-                inputOrg.Attributes.Add("disabled", "true");
-                inputOrg.Value = "";
-                //Area
-                selArea.Attributes.Remove("disabled");
-                selArea.Attributes.Add("enabled", "true");
-            }
-            else
-            {
-                inputOrg.Attributes.Remove("disabled");
-                inputOrg.Attributes.Add("enabled", "true");
-                //Area
-                selArea.Attributes.Remove("enabled");
-                selArea.Attributes.Add("disabled", "true");
+        
 
-            }
-        }
-        public void ResetCint(object sender, EventArgs e)
-        {
-
-
-            var item = selCinterno.Items.FindByText("Todos");
-            if (item != null)
-                item.Selected = true;
-           
-        }
     }
 }

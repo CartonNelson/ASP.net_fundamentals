@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Agenda._Default" %>
 
 <asp:Content ID="BodyForm" ContentPlaceHolderID="ContentForm" runat="server">
+    <br />
+    <div runat="server" class="container">
+      <h2>
+        <small class="text-muted">Consulta de Agenda</small>
+      </h2>  
+    </div>
     <div runat="server" class="container">
     <br />
     <form  id="FilterForm">
@@ -42,8 +48,8 @@
 
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selCinterno">Contacto interno</asp:label>
-         <select runat="server" class="form-control" id="selCinterno" onserverchange="ConInternoAction" >
-                <option>Todos</option>
+         <select runat="server" class="form-control" id="selCinterno" onchange="ConInternoAction(this);">
+                <option selected="selected">Todos</option>
                 <option>SI</option>
                 <option>NO</option>
             </select>
@@ -53,7 +59,7 @@
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="inputOrg" ID="lblOrganizacion">Organizacion</asp:label>
-          <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder="">
+          <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder="" value="">
         </div>
 
         <div  runat="server" class="form-group col-md-4">
@@ -79,7 +85,7 @@
       <%-- Botones --%>
       <div class="form-row"  runat="server">
            <div class="form-group col-md-8"  runat="server">
-               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png" onClientClick="this.form.reset(); return false;" />
+               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="myFunc(); this.form.reset(); return false;" />
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
@@ -94,10 +100,31 @@
  
 </div>
     <div runat="server"  class="container" >
-    <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
-      <p>Error al filtrar busqueda: <%=msjVal%></p> 
+        <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
+          <p>Error al filtrar busqueda: <%=msjVal%></p> 
+        </div>
     </div>
-</div>
+    <script>
+        function ConInternoAction(conInterno) {
+            if (conInterno.value == 'SI') {
+                 
+                $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
+                $("#<%=inputOrg.ClientID%>").val('');
+                //area          
+                $( "#<%=selArea.ClientID%>").removeAttr('disabled');
+
+            } else {
+                
+                $("#<%=inputOrg.ClientID%>").removeAttr('disabled');
+                $(" #<%=selArea.ClientID%>").attr('disabled', 'disabled');
+            }
+        }
+        function myFunc() {
+            $('#<%=selArea.ClientID%>').val('TODOS');
+            $('#<%=selArea.ClientID%>').attr('disabled', 'disabled');
+            $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="BodyGrilla" ContentPlaceHolderID="ContentGrilla" runat="server">
     <div class="div-grilla" runat="server">

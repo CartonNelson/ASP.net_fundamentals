@@ -13,6 +13,7 @@ namespace Agenda
 {
     public class Global : HttpApplication
     {
+       
         void Application_Start(object sender, EventArgs e)
         {
             // Código que se ejecuta al iniciar la aplicación
@@ -28,6 +29,8 @@ namespace Agenda
             Application["ContactList"] = Contactos;
             Application["ID_Contacts"] = 0;
 
+            
+            Application["Modo"] = "";
 
         }
     }
