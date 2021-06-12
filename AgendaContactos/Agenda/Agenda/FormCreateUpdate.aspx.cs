@@ -25,6 +25,42 @@ namespace Agenda
             {
                 Titulo = "Consultar Contacto";
             }
+            
+            if (!IsPostBack)
+            {
+                inicializarForm();
+            }
+            selGenero.Items.Add(new ListItem("1", "2")); // texto, value
+
+            
+
+        }
+
+        protected void inicializarForm()
+        {
+            
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+            Application["MsjError"] = "";
+            //servicio area
+
+            String[] Areas = (string[])Application["Areas"];
+            for (int i = 0; i < Areas.Length; i++)
+            {
+                selArea.Items.Add(new ListItem(Areas[i], i.ToString())); // texto, value
+            }
+        }
+        
+        protected void Accion(Object sender, EventArgs e)
+        {
+            string a = "";
+        }
+        
+        protected void ValidarEmail(object source, ServerValidateEventArgs Email)
+        {
+            if (Email.Value.IndexOf('@') == -1) {
+                Application["MsjError"] = "El EMAIL ingresado es incorrecto";
+                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+            }
         }
 
         protected void VolverAinicio(Object sender, EventArgs e)

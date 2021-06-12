@@ -37,7 +37,7 @@
         <div runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="inputFingDesde">Fecha ingreso desde</asp:label>
          <input  runat="server" type="date" class="form-control" ID="inputFingDesde" placeholder="" value="">
-         <asp:CustomValidator ID="FingDesdeValidator"  OnServerValidate="ValidarFechas" ControlToValidate="inputFingDesde"  runat="server"></asp:CustomValidator>                
+         <asp:CustomValidator ValidationGroup="ValidarCampos" ID="FingDesdeValidator"  OnServerValidate="ValidarFechas" ControlToValidate="inputFingDesde"  runat="server"></asp:CustomValidator>                
 
         </div>
         
@@ -65,11 +65,12 @@
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select runat="server"  class="form-control" id="selArea" disabled>
-                <option>Todos</option>
+              <option value="10">Todos</option>  
+              <%--
                 <option>Marketing</option>
                 <option>Finanzas</option>
                 <option>RRHH</option>
-                <option>Operaciones</option>
+                <option>Operaciones</option>--%>
             </select>
         </div>
 
@@ -90,18 +91,18 @@
            </div>  
            <div class="form-group col-md-4"  runat="server">
                <asp:Button runat="server" type="submit" class="btn btn-success" Text="Buscar" ValidationGroup="ValidarCampos" OnClick="Consultar"></asp:Button>
-               <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Nuevo Contacto" OnClick="redirigir"></asp:Button>
+               <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Nuevo Contacto" OnClick="AltaContacto"></asp:Button>
 
            </div> 
           
       </div>  
 
     </form>
- 
+
 </div>
     <div runat="server"  class="container" >
         <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
-          <p>Error al filtrar busqueda: <%=msjVal%></p> 
+          <p>Error al filtrar busqueda: <%=Application["MsjError"]%></p> 
         </div>
     </div>
     <script>

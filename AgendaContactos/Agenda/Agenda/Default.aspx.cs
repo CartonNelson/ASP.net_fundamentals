@@ -11,7 +11,7 @@ namespace Agenda
 {
     public partial class _Default : Page
     {
-        public String msjVal = "";
+        //public String msjVal = "";
         public const String CREACION = "NEW";
         public const String MODIFICACION = "EDIT";
         public const String CONSULTA = "INFO";
@@ -27,13 +27,13 @@ namespace Agenda
         protected void Page_Load(object sender, EventArgs e)
         {
             try {
-                inicializarFiltro();
-
+                
+                
                  if (!Page.IsPostBack)
                 {
+                    inicializarFiltro();
 
-                    
-                    
+
                 }
 
 
@@ -71,13 +71,13 @@ namespace Agenda
             }
         }
         
-        protected void redirigir(Object sender, EventArgs e)
+        protected void AltaContacto(Object sender, EventArgs e)
         {
             Application["Modo"] = CREACION;
             Response.Redirect("formCreateUpdate.aspx");
         }
 
-        protected void inicializarFiltro()
+        public void inicializarFiltro()
         {
             DateTime currentDate = DateTime.Now;
             currentDate = currentDate.AddDays(-30);
@@ -87,6 +87,15 @@ namespace Agenda
             this.inputFingHasta.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
             ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+            Application["MsjError"] = "";
+
+            //servicio area
+
+            String[] Areas = (string[])Application["Areas"];
+            for (int i = 0; i < Areas.Length; i++)
+            {
+                selArea.Items.Add(new ListItem(Areas[i], i.ToString())); // texto, value
+            }
         }
 
         
@@ -97,7 +106,7 @@ namespace Agenda
             int result = DateTime.Compare(fDesde, fHasta);
             if (result > 0)
             {
-                msjVal = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
+                Application["MsjError"] = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
             }
             Fechas.IsValid = result <= 0;// ? true : false;

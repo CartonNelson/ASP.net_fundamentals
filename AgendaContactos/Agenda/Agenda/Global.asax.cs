@@ -29,8 +29,15 @@ namespace Agenda
             Application["ContactList"] = Contactos;
             Application["ID_Contacts"] = 0;
 
-            
+            Application["MsjError"] ="";
+
+
             Application["Modo"] = "";
+
+            //obtengo areas
+            appservicesareas.Areas areasService = new appservicesareas.Areas();
+            String[] AreasListSrv = areasService.getAreas();
+            Application["Areas"] = AreasListSrv;
 
         }
     }

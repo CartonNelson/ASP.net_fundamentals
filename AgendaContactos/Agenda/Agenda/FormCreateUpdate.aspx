@@ -18,13 +18,17 @@
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="inputNombre">Apellido y Nombre</asp:label>
           <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="">
+             <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidatorUserName"   runat="server"   ControlToValidate="inputNombre"
+                                        Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
         </div>
+         
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selGenero">Genero</asp:label>
-             <select class="form-control" id="selGenero">
+             <select runat="server" class="form-control" id="selGenero">
                 <option>Masculino</option>
                 <option>Femenino</option>
              </select>
+            
         </div>
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selPais">Pais</asp:label>
@@ -60,11 +64,11 @@
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select runat="server"  class="form-control" id="selArea" disabled>
-                <option>Todos</option>
-                <option>Marketing</option>
+                <option value="10">Todos</option>
+                <%--<option>Marketing</option>
                 <option>Finanzas</option>
                 <option>RRHH</option>
-                <option>Operaciones</option>
+                <option>Operaciones</option>--%>
             </select>
         </div>
 
@@ -91,9 +95,13 @@
               <input  runat="server" type="text" class="form-control" id="TelCelular" placeholder="">
             </div>
              <div runat="server" class="form-group col-md-4">
-              <asp:label  runat="server" for="Email" ID="EmailLbl">Email</asp:label>
-              <input type="email" class="form-control" id="Email" aria-describedby="emailHelp">
-            </div>
+              <asp:label  runat="server" for="inpEmail" ID="EmailLbl">Email</asp:label>
+              <input type="text" runat="server"  class="form-control" id="inpEmail" aria-describedby="emailHelp">
+              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidator2"   runat="server"   ControlToValidate="inpEmail"
+                                            Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
+              <asp:CustomValidator ValidationGroup="ValidarCampos" ID="EmailValidator"  OnServerValidate="ValidarEmail" ControlToValidate="inpEmail"  runat="server"></asp:CustomValidator>                
+
+             </div>
           </div>
         <%-- Nivel 5 --%>
            <div runat="server" class="form-row">
@@ -110,14 +118,44 @@
       
 </div>
  <div runat="server" class="container">
-             <div runat="server" class="col-md-8">
+     <%-- <asp:ValidationSummary  DisplayMode="SingleParagraph" /> --%>
+     <div runat="server" class="col-md-8">
                 </div>
            <div class="col-md-4"  runat="server">
-               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Guardar" ValidationGroup="ValidarCampos" ></asp:Button>
+               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Guardar" ValidationGroup="ValidarCampos" onClick="Accion"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Salir" OnClick="VolverAinicio"></asp:Button>
 
            </div> 
     
  </div>
+<br />
+    <div runat="server"  class="container" >
+        <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
+          <p>Error: <%=Application["MsjError"]%></p> 
+        </div>
+
+       <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"  DisplayMode="BulletList" ShowMessageBox="False" ShowSummary="True" CssClass="alert alert-danger" />
+    </div>
+    <script>
+        function ConInternoAction(conInterno) {
+            if (conInterno.value == 'SI') {
+                 
+                $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
+                $("#<%=inputOrg.ClientID%>").val('');
+                //area          
+                $( "#<%=selArea.ClientID%>").removeAttr('disabled');
+
+            } else {
+                
+                $("#<%=inputOrg.ClientID%>").removeAttr('disabled');
+                $(" #<%=selArea.ClientID%>").attr('disabled', 'disabled');
+            }
+        }
+        function myFunc() {
+            $('#<%=selArea.ClientID%>').val('TODOS');
+            $('#<%=selArea.ClientID%>').attr('disabled', 'disabled');
+            $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
+        }
+    </script>
  </asp:Content>   
 
