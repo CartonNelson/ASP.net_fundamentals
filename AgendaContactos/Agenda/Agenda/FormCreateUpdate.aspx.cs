@@ -9,31 +9,41 @@ namespace Agenda
 {
     public partial class FormCreateUpdate : Page
     {
-        private String Modo = "";
+        //private String Modo = "";
         protected String Titulo = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            Modo = (String)Application["Modo"];
-            if (Modo == "EDIT"){
-                Titulo = "Editar Contacto";
-            }
-            else if(Modo=="NEW")
-            {
-                Titulo = "Nuevo Contacto";
-            }
-            else
-            {
-                Titulo = "Consultar Contacto";
-            }
-            
+            //Modo = (String)Application["Modo"];
+            AjustarSegunModo((String)Application["Modo"]);
+
+
             if (!IsPostBack)
             {
                 inicializarForm();
             }
-            selGenero.Items.Add(new ListItem("1", "2")); // texto, value
+            //selGenero.Items.Add(new ListItem("1", "2")); // texto, value
 
             
 
+        }
+        private void AjustarSegunModo(String Modo)
+        {
+            if (Modo == "EDIT")
+            {
+                Titulo = "Editar Contacto";
+                btnAccion.Text = "Grabar";
+            }
+            else if (Modo == "NEW")
+            {
+                Titulo = "Nuevo Contacto";
+                btnAccion.Text = "Enviar";
+            }
+            else
+            {
+                Titulo = "Consultar Contacto";
+                btnAccion.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+                
+            }
         }
 
         protected void inicializarForm()
@@ -41,6 +51,7 @@ namespace Agenda
             
             ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
             Application["MsjError"] = "";
+            
             //servicio area
 
             String[] Areas = (string[])Application["Areas"];

@@ -19,11 +19,13 @@
 
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selPais">Pais</asp:label>
-             <select class="form-control" id="selPais">
-                <option>Argentina</option>
-                <option>Uruguay</option>
-                <option>Brasil</option>
-                <option>Chile</option>
+             <select runat="server" class="form-control" id="selPais">
+               <option value="-1">Todos</option>  
+                <option value="1">Argentina</option>
+                <option value="2">Uruguay</option>
+                <option value="3">Brasil</option>
+                <option value="4">Chile</option>
+                 <option value="5">Italia</option>
             </select>
         </div>
 
@@ -49,9 +51,9 @@
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selCinterno">Contacto interno</asp:label>
          <select runat="server" class="form-control" id="selCinterno" onchange="ConInternoAction(this);">
-                <option selected="selected">Todos</option>
-                <option>SI</option>
-                <option>NO</option>
+                <option value="-1" selected="selected">Todos</option>
+                <option value="2">SI</option>
+                <option value="3">NO</option>
             </select>
         </div>
       </div>
@@ -76,10 +78,10 @@
 
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
-            <select class="form-control" id="selActivo">
-                <option>Todos</option>
-                <option>SI</option>
-                <option>NO</option>
+            <select  runat="server" class="form-control" id="selActivo">
+                <option value="-1">Todos</option>
+                <option value="1">SI</option>
+                <option value="2">NO</option>
             </select>
         </div>
       </div>
@@ -107,7 +109,7 @@
     </div>
     <script>
         function ConInternoAction(conInterno) {
-            if (conInterno.value == 'SI') {
+            if (conInterno.value == '2') {
                  
                 $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
                 $("#<%=inputOrg.ClientID%>").val('');
@@ -115,13 +117,14 @@
                 $( "#<%=selArea.ClientID%>").removeAttr('disabled');
 
             } else {
-                
-                $("#<%=inputOrg.ClientID%>").removeAttr('disabled');
-                $(" #<%=selArea.ClientID%>").attr('disabled', 'disabled');
+                $('#<%=selArea.ClientID%>').val('10'); //Todos
+                $("#<%=inputOrg.ClientID%>").removeAttr('disabled'); 
+                $("#<%=selArea.ClientID%>").attr('disabled', 'disabled');
+               
             }
         }
         function myFunc() {
-            $('#<%=selArea.ClientID%>').val('TODOS');
+            $('#<%=selArea.ClientID%>').val('10');
             $('#<%=selArea.ClientID%>').attr('disabled', 'disabled');
             $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
         }
@@ -132,21 +135,22 @@
         <asp:GridView   CssClass="table table-condensed table-hover"
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
                          HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick">
-                <Columns>                   
-                    <asp:BoundField HeaderText="Apellido y Nombre" DataField="ApellidoNombre" />
-                    <asp:BoundField HeaderText="Genero" DataField="Genero" />
-                    <asp:BoundField HeaderText="Pais" DataField="Pais" />
-                    <asp:BoundField HeaderText="Localidad" DataField="Localidad" />
-                    <asp:BoundField HeaderText="Contacto Interno" DataField="Contacto_int" />
-                    <asp:BoundField HeaderText="Organizacion" DataField="Organizacion" />
-                    <asp:BoundField HeaderText="Area" DataField="Area" />
-                    <asp:BoundField HeaderText="Fecha Ingreso" DataField="F_ingresoD" />
-                    <asp:BoundField HeaderText="Activo" DataField="Activo" />
-                    <asp:BoundField HeaderText="Direcc." DataField="Direccion" />
-                    <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Telefono_fijo" />
-                    <asp:BoundField HeaderText="Tel. Celular" DataField="Celular" />
-                    <asp:BoundField HeaderText="Email" DataField="Email" />
-                    <asp:BoundField HeaderText="Cuenta Skype" DataField="Skype" />
+                <Columns>
+                    <asp:BoundField HeaderText="ID" DataField="id_contacto" />
+                    <asp:BoundField HeaderText="Apellido y Nombre" DataField="apellido_nombre" />
+                    <asp:BoundField HeaderText="Genero" DataField="d_genero" />
+                    <asp:BoundField HeaderText="Pais" DataField="d_pais" />
+                    <asp:BoundField HeaderText="Localidad" DataField="localidad" />
+                    <asp:BoundField HeaderText="Contacto Interno" DataField="d_con_int" />
+                    <asp:BoundField HeaderText="Organizacion" DataField="organizacion" />
+                    <asp:BoundField HeaderText="Area" DataField="d_area" />
+                    <asp:BoundField HeaderText="Fecha Ingreso" DataField="fecha_ingreso" />
+                    <asp:BoundField HeaderText="Activo" DataField="d_activo" />
+                    <asp:BoundField HeaderText="Direcc." DataField="direccion" />
+                    <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Tel_fijo" />
+                    <asp:BoundField HeaderText="Tel. Celular" DataField="tel_cel" />
+                    <asp:BoundField HeaderText="Email" DataField="e_mail" />
+                    <asp:BoundField HeaderText="Cuenta Skype" DataField="skype" />
                     <%-- Acciones --%>
                     <asp:TemplateField HeaderText="Acciones">
                         <ItemTemplate>

@@ -58,10 +58,12 @@ namespace Agenda
             if (Page.IsValid)
             {
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
-                List<Contacto> lista = (List<Contacto>)Application["ContactList"];
 
-                GridContactos.DataSource = lista;
-                GridContactos.DataBind();
+                EjecutarConsulta();
+                //List<Contacto> lista = (List<Contacto>)Application["ContactList"];
+
+                //GridContactos.DataSource = lista;
+                //GridContactos.DataBind();
 
             }
             else
@@ -71,6 +73,32 @@ namespace Agenda
             }
         }
         
+        public void EjecutarConsulta()
+        {
+
+            using (AgendaABM business = new AgendaABM())
+            {
+                
+ 
+                var filter = new Filtro
+                {
+                    apellido_nombre = inputNombre.Value,
+                    id_pais         = int.Parse(selPais.Value), 
+                    localidad       = inputLocal.Value,
+                    id_cont_int     = int.Parse(selCinterno.Value),
+                    organizacion    = inputOrg.Value,
+                    id_area         = int.Parse(selArea.Value),
+                    id_activo       = int.Parse(selActivo.Value),
+                    F_ingresoD      = Convert.ToDateTime(inputFingDesde.Value),
+                    F_ingresoH      = Convert.ToDateTime(inputFingHasta.Value)
+            };
+
+                List<Contacto> contactos =  business.EjecutarConsultaFiltro(filter);
+                GridContactos.DataSource = contactos;
+                GridContactos.DataBind();
+            }
+        }
+
         protected void AltaContacto(Object sender, EventArgs e)
         {
             Application["Modo"] = CREACION;

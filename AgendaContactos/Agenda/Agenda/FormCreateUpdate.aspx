@@ -25,18 +25,20 @@
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selGenero">Genero</asp:label>
              <select runat="server" class="form-control" id="selGenero">
-                <option>Masculino</option>
-                <option>Femenino</option>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
              </select>
             
         </div>
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selPais">Pais</asp:label>
              <select class="form-control" id="selPais">
-                <option>Argentina</option>
-                <option>Uruguay</option>
-                <option>Brasil</option>
-                <option>Chile</option>
+                <option value="">Todos</option>  
+                <option value="1">Argentina</option>
+                <option value="2">Uruguay</option>
+                <option value="3">Brasil</option>
+                <option value="4">Chile</option>
+                 <option value="5">Italia</option>
             </select>
         </div>
       </div>
@@ -49,9 +51,9 @@
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selCinterno">Contacto interno</asp:label>
          <select runat="server" class="form-control" id="selCinterno" onchange="ConInternoAction(this);">
-                <option selected="selected">Todos</option>
-                <option>SI</option>
-                <option>NO</option>
+                <%--<option value="1" selected="selected">Todos</option>--%>
+                <option value="2">SI</option>
+                <option selected="selected" value="3">NO</option>
             </select>
         </div>
         <div runat="server" class="form-group col-md-4">
@@ -64,7 +66,7 @@
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select runat="server"  class="form-control" id="selArea" disabled>
-                <option value="10">Todos</option>
+                <option value="10"></option>
                 <%--<option>Marketing</option>
                 <option>Finanzas</option>
                 <option>RRHH</option>
@@ -75,9 +77,8 @@
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
             <select class="form-control" id="selActivo">
-                <option>Todos</option>
-                <option>SI</option>
-                <option>NO</option>
+                <option value="1">SI</option>
+                <option value="2">NO</option>
             </select>
         </div>
         <div runat="server" class="form-group col-md-4">
@@ -122,7 +123,7 @@
      <div runat="server" class="col-md-8">
                 </div>
            <div class="col-md-4"  runat="server">
-               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Guardar" ValidationGroup="ValidarCampos" onClick="Accion"></asp:Button>
+               <asp:Button id="btnAccion" runat="server" type="submit" class="btn btn-success" Text="Guardar" ValidationGroup="ValidarCampos" onClick="Accion"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Salir" OnClick="VolverAinicio"></asp:Button>
 
            </div> 
@@ -138,7 +139,7 @@
     </div>
     <script>
         function ConInternoAction(conInterno) {
-            if (conInterno.value == 'SI') {
+            if (conInterno.value == '2') {
                  
                 $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
                 $("#<%=inputOrg.ClientID%>").val('');
@@ -146,16 +147,12 @@
                 $( "#<%=selArea.ClientID%>").removeAttr('disabled');
 
             } else {
-                
+                $('#<%=selArea.ClientID%>').val('10'); //Todos
                 $("#<%=inputOrg.ClientID%>").removeAttr('disabled');
                 $(" #<%=selArea.ClientID%>").attr('disabled', 'disabled');
             }
         }
-        function myFunc() {
-            $('#<%=selArea.ClientID%>').val('TODOS');
-            $('#<%=selArea.ClientID%>').attr('disabled', 'disabled');
-            $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
-        }
+        
     </script>
  </asp:Content>   
 

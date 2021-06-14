@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9195E86E-DD60-4A4F-AB0F-5ADE8CFBE7F4}</ProjectGuid>
+    <ProjectGuid>{7E405CCE-A06E-4E0D-B3F7-2EF0C4915055}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Agenda.BBL</RootNamespace>
-    <AssemblyName>Agenda.BBL</AssemblyName>
+    <RootNamespace>DataAccessLayerDB</RootNamespace>
+    <AssemblyName>DataAccessLayerDB</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,18 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgendaABM.cs" />
-    <Compile Include="IAgendaBussines.cs" />
+    <Compile Include="DataAccessLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Agenda.Entity\Entity.csproj">
       <Project>{d0b61e61-2189-48f1-bfa8-4da43e6e9264}</Project>
       <Name>Entity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccessLayerDB\DataAccessLayerDB.csproj">
-      <Project>{7e405cce-a06e-4e0d-b3f7-2ef0c4915055}</Project>
-      <Name>DataAccessLayerDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modelo\Modelo.csproj">
       <Project>{ac5d2c08-cf25-467e-bbe7-4cf9357ae3da}</Project>

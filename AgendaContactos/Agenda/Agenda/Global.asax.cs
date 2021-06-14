@@ -22,7 +22,7 @@ namespace Agenda
 
             //Inicializo modelo de datos 
             List<Contacto> Contactos = new List<Contacto>();
-            ContactosModel model = new ContactosModel();
+            Model model = new Model();
 
             Contactos = model.Crear();
 
