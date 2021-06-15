@@ -62,20 +62,20 @@
                 </div>
             </div>
         </div>
-        <div class="container body-content">
+        <div class="">
             <asp:ContentPlaceHolder ID="ContentForm" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
              
             
         </div>
-        <div class="">
+        <%--<div class="">
             <asp:ContentPlaceHolder ID="ContentGrilla" runat="server">
                  
             </asp:ContentPlaceHolder>
             <hr />
            
-        </div>
+        </div>--%>
         <div class="container body-content">
             <footer>
                 <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>

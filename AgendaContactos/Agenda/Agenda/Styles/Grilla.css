@@ -2,9 +2,10 @@
     text-align:center;
 }
 
-.div-grilla{
+.div-grilla {
     margin-left:5%;
     margin-right:5%;
+ 
 }
 /*------------------------------------------*/
 .table-condensed tr th {
@@ -28,4 +29,12 @@ tr:nth-child(odd) {
 
 h2{
     padding-left:15px;
+}
+
+.contGrilla{
+    width :100%;
+}
+
+.hiddencol {
+    display: none;
 }

@@ -42,6 +42,24 @@ namespace Agenda
         protected global::System.Web.UI.HtmlControls.HtmlSelect selGenero;
 
         /// <summary>
+        /// Control selPais.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect selPais;
+
+        /// <summary>
+        /// Control lblLocal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocal;
+
+        /// <summary>
         /// Control inputLocal.
         /// </summary>
         /// <remarks>
@@ -85,6 +103,15 @@ namespace Agenda
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlSelect selArea;
+
+        /// <summary>
+        /// Control selActivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect selActivo;
 
         /// <summary>
         /// Control DireccionLbl.

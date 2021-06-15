@@ -46,10 +46,8 @@ namespace Agenda
             
         }
 
-        protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
-        {
+       
 
-        }
         protected void Consultar(Object sender, EventArgs e)
         {
             
@@ -92,10 +90,20 @@ namespace Agenda
                     F_ingresoD      = Convert.ToDateTime(inputFingDesde.Value),
                     F_ingresoH      = Convert.ToDateTime(inputFingHasta.Value)
             };
+                Cache["FiltroBusqueda"] = filter;
 
                 List<Contacto> contactos =  business.EjecutarConsultaFiltro(filter);
                 GridContactos.DataSource = contactos;
                 GridContactos.DataBind();
+
+                foreach (GridViewRow row in GridContactos.Rows)// Seteo Imagen Play/pause
+                {
+                    if (row.Cells[14].Text == "SI") {
+                        ImageButton columnaImagen = (ImageButton)row.FindControl("BtnActivar");
+                        columnaImagen.ImageUrl = "/Images/anular.png";
+                    }
+                    
+                }
             }
         }
 
@@ -140,7 +148,57 @@ namespace Agenda
             Fechas.IsValid = result <= 0;// ? true : false;
         }
 
-        
+        protected void ConsultarContacto(Object sender, EventArgs e)
+        {
+
+            try
+            {
+
+                ImageButton boton = (ImageButton)sender;
+
+
+                GridViewRow row = (GridViewRow)boton.DataItemContainer;
+
+                Contacto ContDetalle = new Contacto
+                {
+                
+                 id_contacto = int.Parse(row.Cells[0].Text), //Convert.ToInt32(row.Cells[0].Value);
+                 apellido_nombre = row.Cells[1].Text,
+                 id_genero = Convert.ToInt32(row.Cells[2].Text),
+                 id_pais = Convert.ToInt32(row.Cells[4].Text),
+                 localidad = row.Cells[6].Text,
+                 id_cont_int = Convert.ToInt32(row.Cells[7].Text),
+                 organizacion = row.Cells[9].Text,
+                 id_area = Convert.ToInt32(row.Cells[10].Text),
+                 id_activo = Convert.ToInt32(row.Cells[13].Text),
+                 direccion = row.Cells[15].Text,
+                 tel_fijo = row.Cells[16].Text,
+                 tel_cel = row.Cells[17].Text,
+                 e_mail = row.Cells[18].Text,
+                 skype = row.Cells[19].Text
+
+                };
+                Cache["Contacto"] = ContDetalle;
+
+                Application["Modo"] = CONSULTA;
+                Response.Redirect("formCreateUpdate.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ERROR en ConsultarContacto", ex);
+            }
+        }
+
+
+        protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "DetalleContacto":
+                    string a = "";
+                    break;
+            }
+        }
 
     }
 }

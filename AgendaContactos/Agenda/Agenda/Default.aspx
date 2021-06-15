@@ -80,15 +80,15 @@
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
             <select  runat="server" class="form-control" id="selActivo">
                 <option value="-1">Todos</option>
-                <option value="1">SI</option>
-                <option value="2">NO</option>
+                <option value="2">SI</option>
+                <option value="3">NO</option>
             </select>
         </div>
       </div>
       <%-- Botones --%>
       <div class="form-row"  runat="server">
            <div class="form-group col-md-8"  runat="server">
-               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="myFunc(); this.form.reset(); return false;" />
+               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="javascript:myFunc(); this.form.reset(); return false;" />
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
@@ -107,8 +107,9 @@
           <p>Error al filtrar busqueda: <%=Application["MsjError"]%></p> 
         </div>
     </div>
-    <script>
+    <script >
         function ConInternoAction(conInterno) {
+            alert("Hola");
             if (conInterno.value == '2') {
                  
                 $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
@@ -129,22 +130,46 @@
             $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
         }
     </script>
-</asp:Content>
-<asp:Content ID="BodyGrilla" ContentPlaceHolderID="ContentGrilla" runat="server">
+<%--</asp:Content>
+<asp:Content ID="BodyGrilla" ContentPlaceHolderID="ContentGrilla" runat="server">--%>
+ 
+    
+
+
+   
     <div class="div-grilla" runat="server">
         <asp:GridView   CssClass="table table-condensed table-hover"
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
                          HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick">
+
+                
                 <Columns>
-                    <asp:BoundField HeaderText="ID" DataField="id_contacto" />
+                    <%--<asp:TemplateField Visible="false">
+                    <ItemTemplate>
+                        <asp:Label ID="id_cont" CssClass="" runat="server" Text='<%#Eval("id_contacto")%>'></asp:Label>      
+                                             
+                    </ItemTemplate>                            
+                    </asp:TemplateField>  --%> 
+                    
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_contacto" DataField="id_contacto" /> 
                     <asp:BoundField HeaderText="Apellido y Nombre" DataField="apellido_nombre" />
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_genero" DataField="id_genero" /> 
+                    <%--<asp:BoundField  Visible = "false" HeaderText="id_genero" DataField="id_genero" />--%>
                     <asp:BoundField HeaderText="Genero" DataField="d_genero" />
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_pais" DataField="id_pais" />
+                    <%--<asp:BoundField Visible = "false" HeaderText="id_pais" DataField="id_pais" />--%>
                     <asp:BoundField HeaderText="Pais" DataField="d_pais" />
                     <asp:BoundField HeaderText="Localidad" DataField="localidad" />
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_cont_int" DataField="id_cont_int" />
+                    <%--<asp:BoundField Visible = "false" HeaderText="id_con_int" DataField="id_cont_int" />--%>
                     <asp:BoundField HeaderText="Contacto Interno" DataField="d_con_int" />
                     <asp:BoundField HeaderText="Organizacion" DataField="organizacion" />
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_area" DataField="id_area" />
+                    <%--<asp:BoundField Visible = "false" HeaderText="id_area" DataField="id_area" />--%>
                     <asp:BoundField HeaderText="Area" DataField="d_area" />
                     <asp:BoundField HeaderText="Fecha Ingreso" DataField="fecha_ingreso" />
+                    <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_activo" DataField="id_activo" />
+                    <%--<asp:BoundField Visible = "false" HeaderText="id_activo" DataField="id_activo" />--%>
                     <asp:BoundField HeaderText="Activo" DataField="d_activo" />
                     <asp:BoundField HeaderText="Direcc." DataField="direccion" />
                     <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Tel_fijo" />
@@ -154,14 +179,21 @@
                     <%-- Acciones --%>
                     <asp:TemplateField HeaderText="Acciones">
                         <ItemTemplate>
-                            <asp:ImageButton ToolTip="Consultar"  ImageUrl="~/Images/zoom.png" ID="BtnConsultar" CommandName="Consultar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Editar" ImageUrl="~/Images/edit.png" ID="BtnEditar" CommandName="Editar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Eliminar" ImageUrl="~/Images/delete.png" ID="BtnEliminar" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="~/Images/play_pause.png" ID="BtnActivar" CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
+                            <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" OnClick="ConsultarContacto" ID="BtnConsultar" CommandName="DetalleContacto" runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="Editar" runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar" CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
            </asp:GridView>
-        
+        <style type="text/css"> .hiddencol { display: none; } </style>
     </div>
+ 
+ 
 </asp:Content>
+
+
+ <%--<asp:ImageButton ID="ActivarContacto" CommandName="Activar" runat="server" OnClick="ActivarContacto" 
+                                             OnClientClick="return window.confirm('¿Seguro que desea Actualizar el Contacto?');">
+                            </asp:ImageButton>--%>

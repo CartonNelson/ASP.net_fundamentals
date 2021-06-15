@@ -12,7 +12,7 @@
     <br />
         <div runat="server" class="container">
     <br />
-    <form  id="FilterForm">
+    <form   id="ABMForm">
       <%-- Nivel 1 --%>  
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
@@ -32,8 +32,7 @@
         </div>
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selPais">Pais</asp:label>
-             <select class="form-control" id="selPais">
-                <option value="">Todos</option>  
+             <select class="form-control" id="selPais" runat="server">  
                 <option value="1">Argentina</option>
                 <option value="2">Uruguay</option>
                 <option value="3">Brasil</option>
@@ -45,7 +44,7 @@
       <%-- Nivel 2 --%>
         <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
-         <asp:label runat="server" for="inputLocal">Localidad</asp:label>
+         <asp:label runat="server" id="lblLocal" for="inputLocal">Localidad</asp:label>
          <input runat="server" type="text" class="form-control" id="inputLocal" placeholder="">
         </div>
         <div  runat="server" class="form-group col-md-4">
@@ -65,7 +64,7 @@
       <div runat="server" class="form-row">    
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
-          <select runat="server"  class="form-control" id="selArea" disabled>
+          <select runat="server"  class="form-control" id="selArea">
                 <option value="10"></option>
                 <%--<option>Marketing</option>
                 <option>Finanzas</option>
@@ -76,7 +75,7 @@
 
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
-            <select class="form-control" id="selActivo">
+            <select class="form-control" id="selActivo"  runat="server">
                 <option value="1">SI</option>
                 <option value="2">NO</option>
             </select>
