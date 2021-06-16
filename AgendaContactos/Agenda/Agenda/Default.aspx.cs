@@ -7,6 +7,10 @@ using System.Web.UI.WebControls;
 using Agenda.BBL;
 using Agenda.Entity;
 
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
 namespace Agenda
 {
     public partial class _Default : Page
@@ -16,14 +20,6 @@ namespace Agenda
         public const String MODIFICACION = "EDIT";
         public const String CONSULTA = "INFO";
 
-        //private void print(List<Contacto> ContactList)
-        //{
-        //    foreach (Contacto c in ContactList)
-        //    {
-        //        Response.Write(string.Concat("Id: ", c.ID_contacto, ", Apellido y Nombre:", c.ApellidoNombre, ", Genero:", c.Genero, ", Pais:", c.Pais));
-        //        Response.Write("<BR/>");
-        //    }
-        //}
         protected void Page_Load(object sender, EventArgs e)
         {
             try {
@@ -102,11 +98,16 @@ namespace Agenda
                         ImageButton columnaImagen = (ImageButton)row.FindControl("BtnActivar");
                         columnaImagen.ImageUrl = "/Images/anular.png";
                     }
-                    
+                    row.Cells[12].Text = row.Cells[12].Text.Substring(0, 10);
                 }
             }
         }
-
+        protected void gdview_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridContactos.PageIndex = e.NewPageIndex;
+            
+            this.EjecutarConsulta();
+        }
         protected void AltaContacto(Object sender, EventArgs e)
         {
             Application["Modo"] = CREACION;
@@ -155,30 +156,9 @@ namespace Agenda
             {
 
                 ImageButton boton = (ImageButton)sender;
-
-
                 GridViewRow row = (GridViewRow)boton.DataItemContainer;
 
-                Contacto ContDetalle = new Contacto
-                {
-                
-                 id_contacto = int.Parse(row.Cells[0].Text), //Convert.ToInt32(row.Cells[0].Value);
-                 apellido_nombre = row.Cells[1].Text,
-                 id_genero = Convert.ToInt32(row.Cells[2].Text),
-                 id_pais = Convert.ToInt32(row.Cells[4].Text),
-                 localidad = row.Cells[6].Text,
-                 id_cont_int = Convert.ToInt32(row.Cells[7].Text),
-                 organizacion = row.Cells[9].Text,
-                 id_area = Convert.ToInt32(row.Cells[10].Text),
-                 id_activo = Convert.ToInt32(row.Cells[13].Text),
-                 direccion = row.Cells[15].Text,
-                 tel_fijo = row.Cells[16].Text,
-                 tel_cel = row.Cells[17].Text,
-                 e_mail = row.Cells[18].Text,
-                 skype = row.Cells[19].Text
-
-                };
-                Cache["Contacto"] = ContDetalle;
+                setContactoElegido(row);               
 
                 Application["Modo"] = CONSULTA;
                 Response.Redirect("formCreateUpdate.aspx", false);
@@ -189,16 +169,86 @@ namespace Agenda
             }
         }
 
-
-        protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
+        protected void EditarContacto(Object sender, EventArgs e)
         {
-            switch (e.CommandName)
+            try
             {
-                case "DetalleContacto":
-                    string a = "";
-                    break;
+
+                ImageButton boton = (ImageButton)sender;
+                GridViewRow row = (GridViewRow)boton.DataItemContainer;
+
+                setContactoElegido(row);
+
+                Application["Modo"] = MODIFICACION;
+                Response.Redirect("formCreateUpdate.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ERROR en EditarContacto", ex);
             }
         }
 
+   
+
+        
+
+
+        //Guardo el contacto con el que voy a trabajar y cargo datos de la fila elegida
+        protected void setContactoElegido(GridViewRow row)
+        {
+            Contacto ContDetalle = new Contacto
+            {
+
+                id_contacto = int.Parse(row.Cells[0].Text),  
+                apellido_nombre = row.Cells[1].Text,
+                id_genero = Convert.ToInt32(row.Cells[2].Text),
+                id_pais = Convert.ToInt32(row.Cells[4].Text),
+                localidad = row.Cells[6].Text,
+                id_cont_int = Convert.ToInt32(row.Cells[7].Text),
+                organizacion = row.Cells[9].Text,
+                id_area = Convert.ToInt32(row.Cells[10].Text),
+                id_activo = Convert.ToInt32(row.Cells[13].Text),
+                direccion = row.Cells[15].Text,
+                tel_fijo = row.Cells[16].Text,
+                tel_cel = row.Cells[17].Text,
+                e_mail = row.Cells[18].Text,
+                skype = row.Cells[19].Text
+
+            };
+            Cache["ContactoElegido"] = ContDetalle;
+        }
+        protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        //protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
+        //{
+        //    try
+        //    {
+
+        //        switch (e.CommandName)
+        //        {
+        //        case "DetalleContacto":
+        //            Application["Modo"] = CONSULTA;
+        //            break;
+        //        case "EditarContacto":
+        //            Application["Modo"] = MODIFICACION;
+        //            break;
+        //         }
+
+        //        //ImageButton boton = (ImageButton)sender;
+        //        int indiceRow = Convert.ToInt32(e.CommandArgument);
+        //        GridViewRow row = GridContactos.Rows[indiceRow]; //(GridViewRow)boton.DataItemContainer;
+
+        //        setContactoElegido(row);
+        //        Response.Redirect("formCreateUpdate.aspx", false);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ERROR en GridEventClick", ex);
+        //    }
+
+        //}
     }
 }

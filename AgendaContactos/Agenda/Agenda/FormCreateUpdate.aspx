@@ -20,6 +20,8 @@
           <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="">
              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidatorUserName"   runat="server"   ControlToValidate="inputNombre"
                                         Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
+         <%-- <asp:CustomValidator  ID="idValidarNombre"  OnServerValidate="ValidarNombre" ControlToValidate="inputNombre"  runat="server"></asp:CustomValidator>   --%>             
+
         </div>
          
         <div runat="server" class="form-group col-md-4">
@@ -65,7 +67,7 @@
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select runat="server"  class="form-control" id="selArea">
-                <option value="10"></option>
+                <option value="10">Ninguna</option>
                 <%--<option>Marketing</option>
                 <option>Finanzas</option>
                 <option>RRHH</option>
@@ -86,6 +88,7 @@
         </div>
         <%-- Nivel 4 --%>
           <div runat="server" class="form-row">
+                       <asp:CustomValidator   ValidationGroup="ValidarCampos"  ID="FingDesdeValidator"  OnServerValidate="ValidarComuContacto" runat="server"></asp:CustomValidator>                
              <div runat="server" class="form-group col-md-4">
                <asp:label  runat="server" for="TelFijo" ID="TfijoLbl">Telefono Fijo - Interno</asp:label>
                <input  runat="server" type="text" class="form-control" id="TelFijo" placeholder="">
@@ -99,7 +102,8 @@
               <input type="text" runat="server"  class="form-control" id="inpEmail" aria-describedby="emailHelp">
               <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidator2"   runat="server"   ControlToValidate="inpEmail"
                                             Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
-              <asp:CustomValidator ValidationGroup="ValidarCampos" ID="EmailValidator"  OnServerValidate="ValidarEmail" ControlToValidate="inpEmail"  runat="server"></asp:CustomValidator>                
+              
+                 <asp:CustomValidator ValidationGroup="ValidarCampos"  ID="EmailValidator"  OnServerValidate="ValidarEmail" ControlToValidate="inpEmail"  runat="server"></asp:CustomValidator>                
 
              </div>
           </div>
@@ -118,11 +122,11 @@
       
 </div>
  <div runat="server" class="container">
-     <%-- <asp:ValidationSummary  DisplayMode="SingleParagraph" /> --%>
+ 
      <div runat="server" class="col-md-8">
                 </div>
            <div class="col-md-4"  runat="server">
-               <asp:Button id="btnAccion" runat="server" type="submit" class="btn btn-success" Text="Guardar" ValidationGroup="ValidarCampos" onClick="Accion"></asp:Button>
+               <asp:Button id="btnAccion"  ValidationGroup="ValidarCampos"  runat="server"  class="btn btn-success" Text="Guardar"   onClick="Accion"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Salir" OnClick="VolverAinicio"></asp:Button>
 
            </div> 
@@ -134,7 +138,7 @@
           <p>Error: <%=Application["MsjError"]%></p> 
         </div>
 
-       <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"  DisplayMode="BulletList" ShowMessageBox="False" ShowSummary="True" CssClass="alert alert-danger" />
+       <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"  DisplayMode="BulletList" ShowMessageBox="true" ShowSummary="false" CssClass="alert alert-danger" />
     </div>
     <script>
         function ConInternoAction(conInterno) {

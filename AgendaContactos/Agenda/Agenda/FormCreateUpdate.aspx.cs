@@ -11,6 +11,7 @@ namespace Agenda
     {
         //private String Modo = "";
         protected String Titulo = "";
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             //Modo = (String)Application["Modo"];
@@ -32,6 +33,8 @@ namespace Agenda
             {
                 Titulo = "Editar Contacto";
                 btnAccion.Text = "Grabar";
+                LlenarFormContacto();
+
             }
             else if (Modo == "NEW")
             {
@@ -42,7 +45,7 @@ namespace Agenda
             else
             {
                 Titulo = "Consultar Contacto";
-                btnAccion.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+                
                 
                 LlenarFormContacto();
                 DeshabilitarCampos();
@@ -54,7 +57,7 @@ namespace Agenda
 
         protected void LlenarFormContacto()
         {
-            Contacto contactData = (Contacto)Cache["Contacto"];
+            Contacto contactData = (Contacto)Cache["ContactoElegido"];
             inputNombre.Value = contactData.apellido_nombre;
             selGenero.Value = contactData.id_genero.ToString();
             selPais.Value = contactData.id_pais.ToString();
@@ -70,6 +73,8 @@ namespace Agenda
             Skype.Value = contactData.skype == "&nbsp;" ? " " : contactData.skype; 
              
         }
+
+        //En caso de consulta deshabilito los campos
         protected void DeshabilitarCampos()
         {
             inputNombre.Attributes.Add("disabled", "true");
@@ -85,38 +90,104 @@ namespace Agenda
             TelCelular.Attributes.Add("disabled", "true");
             inpEmail.Attributes.Add("disabled", "true");
             Skype.Attributes.Add("disabled", "true");
+
+            //boton de accion
+            btnAccion.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
         }
+
+        //inicializo msj de error y cargo option area desde el servicio
         protected void inicializarForm()
         {
             
             ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
             Application["MsjError"] = "";
-            
-            //servicio area
 
+
+            selArea.Items.Clear();
             String[] Areas = (string[])Application["Areas"];
-            for (int i = 0; i < Areas.Length; i++)
-            {
-                selArea.Items.Add(new ListItem(Areas[i], i.ToString())); // texto, value
+           for (int i = 0; i < Areas.Length; i++)
+                {
+                     selArea.Items.Add(new ListItem(Areas[i], i.ToString()));
+                
             }
+
+
+
         }
-        
+
         protected void Accion(Object sender, EventArgs e)
         {
-            string a = "";
-        }
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+            Application["MsjError"] = "";
+
+            Page.Validate();
+            if (Page.IsValid)
+            {
+
+                string a = "HOLA";
+            }
         
+        
+        }
         protected void ValidarEmail(object source, ServerValidateEventArgs Email)
         {
-            if (Email.Value.IndexOf('@') == -1) {
+            if (inpEmail.Value.IndexOf('@') == -1) {
                 Application["MsjError"] = "El EMAIL ingresado es incorrecto";
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                Email.IsValid = false;
             }
+            else
+            {
+                if(inpEmail.Value.Length == 0)
+                {
+                    Application["MsjError"] = "Falta completar el campo EMAIL";
+                    ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                    Email.IsValid = false;
+                }
+                else
+                {
+                    Email.IsValid = true;
+                }
+               
+            }
+
+        }
+
+        protected void ValidarNombre(object source, ServerValidateEventArgs NombreApellido)
+        {
+            if (inputNombre.Value.Length == 0)
+            {
+                Application["MsjError"] = "Falta completar el campo Apellido y Nombre";
+                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                NombreApellido.IsValid = false;
+            }
+            else
+            {
+                NombreApellido.IsValid = true;
+            }
+
+        }
+
+        public void ValidarComuContacto(object source, ServerValidateEventArgs inputs)
+        {
+            Boolean result = true;
+
+            if (TelCelular.Value.Trim(' ').Length == 0 && TelFijo.Value.Trim(' ').Length == 0 && Skype.Value.Trim(' ').Length == 0)
+            {
+                Application["MsjError"] = "Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE";
+                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                result = false;
+            }
+            inputs.IsValid = result;
         }
 
         protected void VolverAinicio(Object sender, EventArgs e)
         {
             Response.Redirect("Default.aspx");
         }
+
+
+
+        
     }
 }

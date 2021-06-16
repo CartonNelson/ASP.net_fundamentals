@@ -109,7 +109,7 @@
     </div>
     <script >
         function ConInternoAction(conInterno) {
-            alert("Hola");
+            
             if (conInterno.value == '2') {
                  
                 $("#<%=inputOrg.ClientID%>").attr('disabled', 'disabled');
@@ -138,10 +138,12 @@
 
    
     <div class="div-grilla" runat="server">
+        
         <asp:GridView   CssClass="table table-condensed table-hover"
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
-                         HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick">
-
+                         HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick" 
+                            AllowPaging="true" OnPageIndexChanging="gdview_PageIndexChanging" PageSize="2">
+       <%-- <PagerSettings Mode = "NumericFirstLast"  PageButtonCount = "2"  FirstPageText = "First"  LastPageText = "Last" /> --%> 
                 
                 <Columns>
                     <%--<asp:TemplateField Visible="false">
@@ -179,15 +181,23 @@
                     <%-- Acciones --%>
                     <asp:TemplateField HeaderText="Acciones">
                         <ItemTemplate>
-                            <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" OnClick="ConsultarContacto" ID="BtnConsultar" CommandName="DetalleContacto" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="Editar" runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" ID="BtnConsultar" CommandName="DetalleContacto"  OnClick="ConsultarContacto"  runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="EditarContacto" OnClick="EditarContacto" runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar" CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
+            <%--<PagerStyle CssClass="pagination" HorizontalAlign="Center" VerticalAlign="Middle"/>--%>
+                <PagerStyle CssClass="paginationStyle"  HorizontalAlign="Center" VerticalAlign="Middle" />
            </asp:GridView>
-        <style type="text/css"> .hiddencol { display: none; } </style>
+        
+
+        <style type="text/css"> 
+            /*.hiddencol { display: none; } HorizontalAlign ="Center"*/
+            
+
+        </style>
     </div>
  
  
