@@ -8,7 +8,7 @@ namespace Agenda.Entity
 {
     public class Contacto : AAgendaEntitys
     {
-        public int id_contacto { get; set; }
+        public int? id_contacto { get; set; }
         public int id_genero { get; set; }
         public String direccion { get; set; }
         public DateTime fecha_ingreso { get; set; }

@@ -21,8 +21,96 @@ namespace Agenda.BBL
         {
            
         }
+        //Creacion de contacto 
+        public int? CrearContacto (Contacto cont)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+
+
+                    regAfec = dal.EjecutarCrearContacto(transaction, connection, cont);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+
+        //Eliminar contacto
+        public int? eliminarCont(int id_contacto)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+
+                    regAfec = dal.EjecutarEliminacion(transaction, connection, id_contacto);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+        //Actualizacion de contacto 
+        public int? ActualizarContacto(Contacto cont)
+        {
+          int? regAfec;
+                using (DataAccessLayer dal = new DataAccessLayer())
+                {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                    {
+
+
+                        regAfec = dal.EjecutarActualizacionContacto(transaction, connection, cont);
+                        transaction.Commit();
+
+                        return regAfec;
+                    
+                    }catch(Exception e)
+                    {
+                        transaction.Rollback();
+                        return null;
+                     }
+                    finally
+                    {
+                        transaction.Dispose();
+                    }
+                }
+           
+        }
         
-         
+        
+        
         //Busqueda de contactos segun filtro
         public List<Contacto> EjecutarConsultaFiltro(Filtro filter)
         {
@@ -34,7 +122,7 @@ namespace Agenda.BBL
                     var connection = dal.AbrirConexion();
                     //DataSet ds = dal.EjecutarQueryConPaginado(connection, filter);
                     
-                    DataSet ds = dal.EjecutarQueryConPaginado(connection, filter);
+                    DataSet ds = dal.ConsultarContactosFilter(connection, filter);
                     return SetDsContactos(ds);
                 }
             }

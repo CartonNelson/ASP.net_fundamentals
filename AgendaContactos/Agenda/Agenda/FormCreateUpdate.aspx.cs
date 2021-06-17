@@ -5,22 +5,31 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Agenda.Entity;
+using Agenda.BBL;
 namespace Agenda
 {
     public partial class FormCreateUpdate : Page
     {
         //private String Modo = "";
         protected String Titulo = "";
-        
+        //protected int? var_id_cont;
+        protected const String SUCCESS = "alert alert-success";
+        protected const String DANGER = "alert alert-danger";
+
+        public const String CREACION = "NEW";
+        public const String MODIFICACION = "EDIT";
+        public const String CONSULTA = "INFO";
         protected void Page_Load(object sender, EventArgs e)
         {
             //Modo = (String)Application["Modo"];
            
-            inicializarForm();
+            
 
             if (!IsPostBack)
             {
+                inicializarForm();
                 AjustarSegunModo((String)Application["Modo"]);
+                
             }
             //selGenero.Items.Add(new ListItem("1", "2")); // texto, value
 
@@ -29,17 +38,17 @@ namespace Agenda
         }
         private void AjustarSegunModo(String Modo)
         {
-            if (Modo == "EDIT")
+            if (Modo == MODIFICACION)
             {
                 Titulo = "Editar Contacto";
-                btnAccion.Text = "Grabar";
+                btnAccion.Text = "Guardar";
                 LlenarFormContacto();
 
             }
-            else if (Modo == "NEW")
+            else if (Modo == CREACION)
             {
                 Titulo = "Nuevo Contacto";
-                btnAccion.Text = "Enviar";
+                btnAccion.Text = "Insertar";
                 selArea.Attributes.Add("disabled", "true");
             }
             else
@@ -58,6 +67,7 @@ namespace Agenda
         protected void LlenarFormContacto()
         {
             Contacto contactData = (Contacto)Cache["ContactoElegido"];
+            //var_id_cont = contactData.id_contacto;
             inputNombre.Value = contactData.apellido_nombre;
             selGenero.Value = contactData.id_genero.ToString();
             selPais.Value = contactData.id_pais.ToString();
@@ -98,50 +108,148 @@ namespace Agenda
         //inicializo msj de error y cargo option area desde el servicio
         protected void inicializarForm()
         {
-            
-            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
-            Application["MsjError"] = "";
 
-
+            limpiarError();
             selArea.Items.Clear();
+
             String[] Areas = (string[])Application["Areas"];
-           for (int i = 0; i < Areas.Length; i++)
-                {
-                     selArea.Items.Add(new ListItem(Areas[i], i.ToString()));
-                
+            selArea.Items.Add(new ListItem("Ninguna", "10")); //opcion vacio
+            for (int i = 0; i < Areas.Length; i++){
+                 selArea.Items.Add(new ListItem(Areas[i], i.ToString()));  
             }
 
 
 
         }
 
+        //Insertar-Actualizar contacto
         protected void Accion(Object sender, EventArgs e)
         {
-            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
-            Application["MsjError"] = "";
+            limpiarError();
 
             Page.Validate();
             if (Page.IsValid)
             {
+                Contacto ContactoEnvio = new Contacto();
+               
 
-                string a = "HOLA";
+                using (AgendaABM business = new AgendaABM())
+                {
+                    if (btnAccion.Text == "Guardar")
+                    { //modo edicion
+                        ContactoEnvio = CrearContactoActualiz();
+                        var regAfectados = business.ActualizarContacto(ContactoEnvio);
+                        if (regAfectados == null || regAfectados < 1)
+                        {
+                            MostrarError("No se actualizo ningun registro", DANGER);
+                        }else
+                        {             
+                            MostrarError("Actualizacion correcta", SUCCESS);
+                        }
+                    }
+                    else //modo creacion
+                    {
+                        ContactoEnvio = CrearContactoAlta();
+                        var regAfectados = business.CrearContacto(ContactoEnvio);
+                        if (regAfectados == null || regAfectados < 1)
+                        {
+                            MostrarError("No pudo crear el contacto", DANGER);
+                        }
+                        else
+                        {
+                            MostrarError("Contacto creado correctamente", SUCCESS);
+                        }
+                    }
+                }
             }
         
         
         }
+
+        protected void MostrarError(string msj, string classError)
+        {
+            Application["MsjError"] = msj;
+            ErrorContainer.Attributes.Add("class", classError);
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+        }
+
+        protected void limpiarError()
+        {
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
+            Application["MsjError"] = "";
+        }
+
+
+        protected Contacto CrearContactoActualiz()
+        {
+            Contacto contAux = new Contacto();
+            contAux = (Contacto)Cache["ContactoElegido"];
+
+            Contacto ContactoSet = new Contacto
+            {
+                id_contacto = contAux.id_contacto,
+                apellido_nombre = inputNombre.Value,
+                id_genero = int.Parse(selGenero.Value),
+                id_pais = int.Parse(selPais.Value),
+                localidad = inputLocal.Value,
+                id_cont_int = int.Parse(selCinterno.Value),
+                organizacion = inputOrg.Value,
+                id_area = int.Parse(selArea.Value),
+                id_activo = int.Parse(selActivo.Value),
+                direccion = Direccion.Value,
+                tel_fijo = TelFijo.Value,
+                tel_cel = TelCelular.Value,
+                e_mail = inpEmail.Value,
+                skype = Skype.Value
+
+            };
+
+            return ContactoSet;
+
+        }
+
+        //insertar datos del form en el usuario a crear
+        protected Contacto CrearContactoAlta()
+        {
+            
+
+            Contacto ContactoSet = new Contacto
+            {
+                //id_contacto = contAux.id_contacto == null ? 0 : contAux.id_contacto,
+                apellido_nombre = inputNombre.Value,
+                id_genero = int.Parse(selGenero.Value),
+                id_pais = int.Parse(selPais.Value),
+                localidad = inputLocal.Value,
+                id_cont_int = int.Parse(selCinterno.Value),
+                organizacion = inputOrg.Value,
+                id_area = int.Parse(selArea.Value),
+                id_activo = int.Parse(selActivo.Value),
+                direccion = Direccion.Value,
+                tel_fijo = TelFijo.Value,
+                tel_cel = TelCelular.Value,
+                e_mail = inpEmail.Value,
+                skype = Skype.Value
+
+            };
+
+            return ContactoSet;
+        }
+
         protected void ValidarEmail(object source, ServerValidateEventArgs Email)
         {
             if (inpEmail.Value.IndexOf('@') == -1) {
-                Application["MsjError"] = "El EMAIL ingresado es incorrecto";
-                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                //Application["MsjError"] = "El EMAIL ingresado es incorrecto";
+                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                MostrarError("El EMAIL ingresado es incorrecto", DANGER);
                 Email.IsValid = false;
             }
             else
             {
                 if(inpEmail.Value.Length == 0)
                 {
-                    Application["MsjError"] = "Falta completar el campo EMAIL";
-                    ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                    //Application["MsjError"] = "Falta completar el campo EMAIL";
+                    //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                    MostrarError("Falta completar el campo EMAIL", DANGER);
                     Email.IsValid = false;
                 }
                 else
@@ -153,20 +261,20 @@ namespace Agenda
 
         }
 
-        protected void ValidarNombre(object source, ServerValidateEventArgs NombreApellido)
-        {
-            if (inputNombre.Value.Length == 0)
-            {
-                Application["MsjError"] = "Falta completar el campo Apellido y Nombre";
-                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
-                NombreApellido.IsValid = false;
-            }
-            else
-            {
-                NombreApellido.IsValid = true;
-            }
+        //protected void ValidarNombre(object source, ServerValidateEventArgs NombreApellido)
+        //{
+        //    if (inputNombre.Value.Length == 0)
+        //    {
+        //        Application["MsjError"] = "Falta completar el campo Apellido y Nombre";
+        //        ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+        //        NombreApellido.IsValid = false;
+        //    }
+        //    else
+        //    {
+        //        NombreApellido.IsValid = true;
+        //    }
 
-        }
+        //}
 
         public void ValidarComuContacto(object source, ServerValidateEventArgs inputs)
         {
@@ -174,8 +282,9 @@ namespace Agenda
 
             if (TelCelular.Value.Trim(' ').Length == 0 && TelFijo.Value.Trim(' ').Length == 0 && Skype.Value.Trim(' ').Length == 0)
             {
-                Application["MsjError"] = "Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE";
-                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                //Application["MsjError"] = "Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE";
+                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                MostrarError("Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE", DANGER);
                 result = false;
             }
             inputs.IsValid = result;

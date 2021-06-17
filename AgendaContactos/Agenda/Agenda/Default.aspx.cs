@@ -20,17 +20,25 @@ namespace Agenda
         public const String MODIFICACION = "EDIT";
         public const String CONSULTA = "INFO";
 
+        protected const String SUCCESS = "alert alert-success";
+        protected const String DANGER = "alert alert-danger";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try {
                 
-                
-                 if (!Page.IsPostBack)
-                {
-                    inicializarFiltro();
+                //cargarFiltroBusqueda();
 
+                if (!Page.IsPostBack)
+                {
+
+                    inicializarFiltro();
+                    Cache["FiltroExiste"] = false;
 
                 }
+                
+                   
+                 
 
 
 
@@ -47,18 +55,17 @@ namespace Agenda
         protected void Consultar(Object sender, EventArgs e)
         {
             
-
+            
             Page.Validate();
             if (Page.IsValid)
             {
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
 
                 EjecutarConsulta();
-                //List<Contacto> lista = (List<Contacto>)Application["ContactList"];
-
-                //GridContactos.DataSource = lista;
-                //GridContactos.DataBind();
-
+                if (selCinterno.Value == "2")
+                {
+                    selArea.Attributes.Remove("disabled");
+                }
             }
             else
             {
@@ -85,8 +92,9 @@ namespace Agenda
                     id_activo       = int.Parse(selActivo.Value),
                     F_ingresoD      = Convert.ToDateTime(inputFingDesde.Value),
                     F_ingresoH      = Convert.ToDateTime(inputFingHasta.Value)
-            };
+                };
                 Cache["FiltroBusqueda"] = filter;
+                Cache["FiltroExiste"] = true;
 
                 List<Contacto> contactos =  business.EjecutarConsultaFiltro(filter);
                 GridContactos.DataSource = contactos;
@@ -98,7 +106,7 @@ namespace Agenda
                         ImageButton columnaImagen = (ImageButton)row.FindControl("BtnActivar");
                         columnaImagen.ImageUrl = "/Images/anular.png";
                     }
-                    row.Cells[12].Text = row.Cells[12].Text.Substring(0, 10);
+                    row.Cells[12].Text = row.Cells[12].Text.Substring(0, 10); //parseo fecha
                 }
             }
         }
@@ -111,7 +119,7 @@ namespace Agenda
         protected void AltaContacto(Object sender, EventArgs e)
         {
             Application["Modo"] = CREACION;
-            Response.Redirect("formCreateUpdate.aspx");
+            Response.Redirect("formCreateUpdate.aspx", false);
         }
 
         public void inicializarFiltro()
@@ -120,7 +128,7 @@ namespace Agenda
             currentDate = currentDate.AddDays(-30);
             String newDate = currentDate.ToString("yyyy-MM-dd");
             this.inputFingDesde.Value = newDate;
-             
+
             this.inputFingHasta.Value = DateTime.Now.ToString("yyyy-MM-dd");
 
             ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
@@ -133,6 +141,8 @@ namespace Agenda
             {
                 selArea.Items.Add(new ListItem(Areas[i], i.ToString())); // texto, value
             }
+
+            selArea.Attributes.Add("disabled", "disabled");
         }
 
         
@@ -143,8 +153,9 @@ namespace Agenda
             int result = DateTime.Compare(fDesde, fHasta);
             if (result > 0)
             {
-                Application["MsjError"] = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
-                ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                //Application["MsjError"] = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
+                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                MostrarError("La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta", DANGER);
             }
             Fechas.IsValid = result <= 0;// ? true : false;
         }
@@ -217,38 +228,108 @@ namespace Agenda
             };
             Cache["ContactoElegido"] = ContDetalle;
         }
+
+        //Eliminar contacto
+        protected void eliminarContacto(Object sender, EventArgs e)
+        {
+            try
+            {
+
+                ImageButton boton = (ImageButton)sender;
+                GridViewRow row = (GridViewRow)boton.DataItemContainer;
+
+                //setContactoElegido(row);
+                var id_contacto = int.Parse(row.Cells[0].Text);
+
+                using (AgendaABM business = new AgendaABM())
+                {
+                    var regAfectados = business.eliminarCont(id_contacto);
+                    if (regAfectados == null || regAfectados < 1)
+                    {
+                        MostrarError("No se pudo eliminar el Contacto", DANGER);
+                    }
+                    else
+                    {
+                        EjecutarConsulta();
+                        MostrarError("Eliminacion coorrecta", SUCCESS);
+                        
+
+                    }
+                }
+
+
+                }
+            catch (Exception ex)
+            {
+                throw new Exception("ERROR en ConsultarContacto", ex);
+            }
+        }
+
+        //Activar contacto
+        //protected void activarContacto(Object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+
+        //        ImageButton boton = (ImageButton)sender;
+        //        GridViewRow row = (GridViewRow)boton.DataItemContainer;
+
+        //        //setContactoElegido(row);
+        //        var id_contacto = int.Parse(row.Cells[0].Text);
+        //        var id_activo = int.Parse(row.Cells[13].Text);
+        //        var msj = id_activo == 2 ? "Inactivar" : 
+        //        using (AgendaABM business = new AgendaABM())
+        //        {
+        //            var regAfectados = business.ActivarPausarContacto(id_contacto);
+        //            if (regAfectados == null || regAfectados < 1)
+        //            {
+        //                MostrarError("No se pudo actualizar el Contacto", DANGER);
+        //            }
+        //            else
+        //            {
+        //                MostrarError("Eliminacion coorrecta", SUCCESS);
+
+        //            }
+        //        }
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("ERROR en ConsultarContacto", ex);
+        //    }
+
+        //}
+
+        protected void cargarFiltroBusqueda()
+        {
+            bool existeFiltro = (bool)Cache["FiltroExiste"];
+            Filtro filter = new Filtro();
+            Cache["FiltroBusqueda"] = filter;
+            if (existeFiltro)
+            {
+                inputNombre.Value = filter.apellido_nombre;
+                selPais.Items.FindByValue(filter.id_pais.ToString()).Selected = true;
+                inputLocal.Value = filter.localidad;
+                selCinterno.Items.FindByValue(filter.id_cont_int.ToString()).Selected = true;
+                inputOrg.Value = filter.organizacion;
+                selArea.Items.FindByValue(filter.id_area.ToString()).Selected = true;
+                selActivo.Items.FindByValue(filter.id_activo.ToString()).Selected = true;
+            }
+        }
+
+        protected void MostrarError(string msj, string classError)
+        {
+            Application["MsjError"] = msj;
+            ErrorContainer.Attributes.Add("class", classError);
+            ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+        }
+
         protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
         {
 
         }
 
-        //protected void GridEventClick(Object sender, GridViewCommandEventArgs e)
-        //{
-        //    try
-        //    {
-
-        //        switch (e.CommandName)
-        //        {
-        //        case "DetalleContacto":
-        //            Application["Modo"] = CONSULTA;
-        //            break;
-        //        case "EditarContacto":
-        //            Application["Modo"] = MODIFICACION;
-        //            break;
-        //         }
-
-        //        //ImageButton boton = (ImageButton)sender;
-        //        int indiceRow = Convert.ToInt32(e.CommandArgument);
-        //        GridViewRow row = GridContactos.Rows[indiceRow]; //(GridViewRow)boton.DataItemContainer;
-
-        //        setContactoElegido(row);
-        //        Response.Redirect("formCreateUpdate.aspx", false);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ERROR en GridEventClick", ex);
-        //    }
-
-        //}
+        
     }
 }

@@ -61,12 +61,12 @@
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="inputOrg" ID="lblOrganizacion">Organizacion</asp:label>
-          <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder="" value="">
+          <input  runat="server" type="text" class="form-control" id="inputOrg" placeholder=""  >
         </div>
 
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
-          <select runat="server"  class="form-control" id="selArea" disabled>
+          <select runat="server"  class="form-control" id="selArea">
               <option value="10">Todos</option>  
               <%--
                 <option>Marketing</option>
@@ -88,11 +88,11 @@
       <%-- Botones --%>
       <div class="form-row"  runat="server">
            <div class="form-group col-md-8"  runat="server">
-               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="javascript:myFunc(); this.form.reset(); return false;" />
+               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="myFunc(); this.form.reset(); return false;" />
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
-               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Buscar" ValidationGroup="ValidarCampos" OnClick="Consultar"></asp:Button>
+               <asp:Button runat="server" type="submit" class="btn btn-success" Text="Buscar" ValidationGroup="ValidarCampos" OnClick="Consultar" ></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Nuevo Contacto" OnClick="AltaContacto"></asp:Button>
 
            </div> 
@@ -104,7 +104,7 @@
 </div>
     <div runat="server"  class="container" >
         <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
-          <p>Error al filtrar busqueda: <%=Application["MsjError"]%></p> 
+          <p><%=Application["MsjError"]%></p> 
         </div>
     </div>
     <script >
@@ -143,15 +143,9 @@
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
                          HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick" 
                             AllowPaging="true" OnPageIndexChanging="gdview_PageIndexChanging" PageSize="2">
-       <%-- <PagerSettings Mode = "NumericFirstLast"  PageButtonCount = "2"  FirstPageText = "First"  LastPageText = "Last" /> --%> 
+       
                 
                 <Columns>
-                    <%--<asp:TemplateField Visible="false">
-                    <ItemTemplate>
-                        <asp:Label ID="id_cont" CssClass="" runat="server" Text='<%#Eval("id_contacto")%>'></asp:Label>      
-                                             
-                    </ItemTemplate>                            
-                    </asp:TemplateField>  --%> 
                     
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_contacto" DataField="id_contacto" /> 
                     <asp:BoundField HeaderText="Apellido y Nombre" DataField="apellido_nombre" />
@@ -183,8 +177,8 @@
                         <ItemTemplate>
                             <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" ID="BtnConsultar" CommandName="DetalleContacto"  OnClick="ConsultarContacto"  runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="EditarContacto" OnClick="EditarContacto" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar" CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
+                            <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClick="eliminarContacto" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
+                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar"  CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

@@ -67,8 +67,8 @@
         <div  runat="server" class="form-group col-md-4">
           <asp:label  runat="server" for="selArea">Area</asp:label>
           <select runat="server"  class="form-control" id="selArea">
-                <option value="10">Ninguna</option>
-                <%--<option>Marketing</option>
+                <%--<option value="10">Ninguna</option>
+                <option>Marketing</option>
                 <option>Finanzas</option>
                 <option>RRHH</option>
                 <option>Operaciones</option>--%>
@@ -78,8 +78,8 @@
         <div  runat="server" class="form-group col-md-4">
          <asp:label  runat="server" for="selActivo">Activo</asp:label>
             <select class="form-control" id="selActivo"  runat="server">
-                <option value="1">SI</option>
-                <option value="2">NO</option>
+                <option value="2">SI</option>
+                <option value="3">NO</option>
             </select>
         </div>
         <div runat="server" class="form-group col-md-4">
@@ -126,7 +126,7 @@
      <div runat="server" class="col-md-8">
                 </div>
            <div class="col-md-4"  runat="server">
-               <asp:Button id="btnAccion"  ValidationGroup="ValidarCampos"  runat="server"  class="btn btn-success" Text="Guardar"   onClick="Accion"></asp:Button>
+               <asp:Button id="btnAccion"  ValidationGroup="ValidarCampos"  runat="server"  class="btn btn-success" Text="Guardar"   onClick="Accion" OnClientClick="return confirmar(this);"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Salir" OnClick="VolverAinicio"></asp:Button>
 
            </div> 
@@ -135,7 +135,7 @@
 <br />
     <div runat="server"  class="container" >
         <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
-          <p>Error: <%=Application["MsjError"]%></p> 
+          <p><%=Application["MsjError"]%></p> 
         </div>
 
        <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"  DisplayMode="BulletList" ShowMessageBox="true" ShowSummary="false" CssClass="alert alert-danger" />
@@ -155,7 +155,25 @@
                 $(" #<%=selArea.ClientID%>").attr('disabled', 'disabled');
             }
         }
-        
+        function confirmar(btn) {
+            
+            if (btn.value == 'Guardar') {
+                if (window.confirm('¿Seguro que desea Actualizar el Contacto?')) {
+                    return true;
+                } else {
+                    location.href = "Default.aspx";
+                    return false;
+                }
+
+            } else {
+                if (window.confirm('¿Seguro que desea Crear el Contacto?')){
+                    return true;
+                }else {
+                    location.href = "Default.aspx";
+                    return false;
+                }
+            }
+        }
     </script>
  </asp:Content>   
 
