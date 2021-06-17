@@ -161,12 +161,6 @@ namespace DataAccessLayerDB
                     DataSet ds = new DataSet();
                     adapter.Fill(ds);
 
-                    //if (DataSetHelper.HasRecords(ds))
-                    //{
-
-                    //    String a = "";
-                    //}
-
                     return ds;
                 }
             }
@@ -191,7 +185,6 @@ namespace DataAccessLayerDB
                 {
                 new SqlParameter() { ParameterName = "@apellidoNombre", Value = filter.apellido_nombre, SqlDbType = SqlDbType.VarChar },
                 new SqlParameter() { ParameterName = "@idPais", Value = filter.id_pais, SqlDbType = SqlDbType.Int },
-                //new SqlParameter() { ParameterName = "@idPais", Value = null ?? DBNull.Value, SqlDbType = SqlDbType.Int },
                 new SqlParameter() { ParameterName = "@localidad", Value = filter.localidad, SqlDbType = SqlDbType.VarChar},
                 new SqlParameter() { ParameterName = "@fechaIngDesde", Value = filter.F_ingresoD, SqlDbType = SqlDbType.DateTime},
                 new SqlParameter() { ParameterName = "@fechaIngHasta", Value = filter.F_ingresoH, SqlDbType = SqlDbType.DateTime},

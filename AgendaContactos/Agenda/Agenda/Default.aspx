@@ -130,12 +130,7 @@
             $('#<%=inputOrg.ClientID%>').removeAttr('disabled');
         }
     </script>
-<%--</asp:Content>
-<asp:Content ID="BodyGrilla" ContentPlaceHolderID="ContentGrilla" runat="server">--%>
  
-    
-
-
    
     <div class="div-grilla" runat="server">
         
@@ -143,30 +138,33 @@
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
                          HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick" 
                             AllowPaging="true" OnPageIndexChanging="gdview_PageIndexChanging" PageSize="5">
-       
                 
                 <Columns>
                     
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_contacto" DataField="id_contacto" /> 
                     <asp:BoundField HeaderText="Apellido y Nombre" DataField="apellido_nombre" />
+
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_genero" DataField="id_genero" /> 
-                    <%--<asp:BoundField  Visible = "false" HeaderText="id_genero" DataField="id_genero" />--%>
                     <asp:BoundField HeaderText="Genero" DataField="d_genero" />
+
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_pais" DataField="id_pais" />
-                    <%--<asp:BoundField Visible = "false" HeaderText="id_pais" DataField="id_pais" />--%>
                     <asp:BoundField HeaderText="Pais" DataField="d_pais" />
+
                     <asp:BoundField HeaderText="Localidad" DataField="localidad" />
+
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_cont_int" DataField="id_cont_int" />
-                    <%--<asp:BoundField Visible = "false" HeaderText="id_con_int" DataField="id_cont_int" />--%>
                     <asp:BoundField HeaderText="Contacto Interno" DataField="d_con_int" />
+
                     <asp:BoundField HeaderText="Organizacion" DataField="organizacion" />
+
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_area" DataField="id_area" />
-                    <%--<asp:BoundField Visible = "false" HeaderText="id_area" DataField="id_area" />--%>
                     <asp:BoundField HeaderText="Area" DataField="d_area" />
+
                     <asp:BoundField HeaderText="Fecha Ingreso" DataField="fecha_ingreso" />
+
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_activo" DataField="id_activo" />
-                    <%--<asp:BoundField Visible = "false" HeaderText="id_activo" DataField="id_activo" />--%>
                     <asp:BoundField HeaderText="Activo" DataField="d_activo" />
+
                     <asp:BoundField HeaderText="Direcc." DataField="direccion" />
                     <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Tel_fijo" />
                     <asp:BoundField HeaderText="Tel. Celular" DataField="tel_cel" />

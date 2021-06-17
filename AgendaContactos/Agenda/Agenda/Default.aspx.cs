@@ -15,7 +15,6 @@ namespace Agenda
 {
     public partial class _Default : Page
     {
-        //public String msjVal = "";
         public const String CREACION = "NEW";
         public const String MODIFICACION = "EDIT";
         public const String CONSULTA = "INFO";
@@ -36,11 +35,6 @@ namespace Agenda
                     RecargarBusqueda((bool)Application["FiltroExiste"]);
 
                 }
-                
-                   
-                 
-
-
 
             }
             catch (Exception ex)
@@ -211,8 +205,6 @@ namespace Agenda
             int result = DateTime.Compare(fDesde, fHasta);
             if (result > 0)
             {
-                //Application["MsjError"] = "La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta";
-                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
                 MostrarError("La fecha de ingreso desde debe ser anterior a la fecha de ingreso hasta", DANGER);
             }
             Fechas.IsValid = result <= 0;// ? true : false;
@@ -360,22 +352,6 @@ namespace Agenda
 
         }
 
-        //protected void cargarFiltroBusqueda()
-        //{
-        //    bool existeFiltro = (bool)Cache["FiltroExiste"];
-        //    Filtro filter = new Filtro();
-        //    Cache["FiltroBusqueda"] = filter;
-        //    if (existeFiltro)
-        //    {
-        //        inputNombre.Value = filter.apellido_nombre;
-        //        selPais.Items.FindByValue(filter.id_pais.ToString()).Selected = true;
-        //        inputLocal.Value = filter.localidad;
-        //        selCinterno.Items.FindByValue(filter.id_cont_int.ToString()).Selected = true;
-        //        inputOrg.Value = filter.organizacion;
-        //        selArea.Items.FindByValue(filter.id_area.ToString()).Selected = true;
-        //        selActivo.Items.FindByValue(filter.id_activo.ToString()).Selected = true;
-        //    }
-        //}
 
         protected void MostrarError(string msj, string classError)
         {

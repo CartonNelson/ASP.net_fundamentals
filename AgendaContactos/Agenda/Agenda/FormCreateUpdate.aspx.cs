@@ -30,10 +30,7 @@ namespace Agenda
                 inicializarForm();
                 AjustarSegunModo((String)Application["Modo"]);
                 
-            }
-            //selGenero.Items.Add(new ListItem("1", "2")); // texto, value
-
-            
+            }           
 
         }
         private void AjustarSegunModo(String Modo)
@@ -252,8 +249,7 @@ namespace Agenda
         protected void ValidarEmail(object source, ServerValidateEventArgs Email)
         {
             if (inpEmail.Value.IndexOf('@') == -1) {
-                //Application["MsjError"] = "El EMAIL ingresado es incorrecto";
-                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
+                
                 MostrarError("El EMAIL ingresado es incorrecto", DANGER);
                 Email.IsValid = false;
             }
@@ -261,8 +257,6 @@ namespace Agenda
             {
                 if(inpEmail.Value.Length == 0)
                 {
-                    //Application["MsjError"] = "Falta completar el campo EMAIL";
-                    //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
                     MostrarError("Falta completar el campo EMAIL", DANGER);
                     Email.IsValid = false;
                 }
@@ -275,20 +269,6 @@ namespace Agenda
 
         }
 
-        //protected void ValidarNombre(object source, ServerValidateEventArgs NombreApellido)
-        //{
-        //    if (inputNombre.Value.Length == 0)
-        //    {
-        //        Application["MsjError"] = "Falta completar el campo Apellido y Nombre";
-        //        ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
-        //        NombreApellido.IsValid = false;
-        //    }
-        //    else
-        //    {
-        //        NombreApellido.IsValid = true;
-        //    }
-
-        //}
 
         public void ValidarComuContacto(object source, ServerValidateEventArgs inputs)
         {
@@ -296,8 +276,6 @@ namespace Agenda
 
             if (TelCelular.Value.Trim(' ').Length == 0 && TelFijo.Value.Trim(' ').Length == 0 && Skype.Value.Trim(' ').Length == 0)
             {
-                //Application["MsjError"] = "Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE";
-                //ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "visible";
                 MostrarError("Al menos un campo de los siguientes debe estar completo: TELEFONO FIJO/CELULAR/SKYPE", DANGER);
                 result = false;
             }

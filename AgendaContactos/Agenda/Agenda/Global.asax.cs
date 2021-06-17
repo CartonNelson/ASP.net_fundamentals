@@ -20,13 +20,7 @@ namespace Agenda
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Inicializo modelo de datos 
-            //List<Contacto> Contactos = new List<Contacto>();
-            //Model model = new Model();
 
-            //Contactos = model.Crear();
-
-            //Application["ContactList"] = Contactos;
             Application["ID_Contacts"] = 0;
 
             Application["MsjError"] ="";

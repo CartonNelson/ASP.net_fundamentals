@@ -19,8 +19,7 @@
           <asp:label runat="server" for="inputNombre">Apellido y Nombre</asp:label>
           <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="">
              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidatorUserName"   runat="server"   ControlToValidate="inputNombre"
-                                        Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
-         <%-- <asp:CustomValidator  ID="idValidarNombre"  OnServerValidate="ValidarNombre" ControlToValidate="inputNombre"  runat="server"></asp:CustomValidator>   --%>             
+                                        Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />          
 
         </div>
          

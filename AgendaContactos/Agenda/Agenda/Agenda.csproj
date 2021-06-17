@@ -112,6 +112,14 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="DDBB_Scripts\01_create_DDBB.sql" />
+    <Content Include="DDBB_Scripts\02 _Creacion de tablas.sql" />
+    <Content Include="DDBB_Scripts\03_Inserts.sql" />
+    <Content Include="DDBB_Scripts\04_PR_ACTIVAR_PAUSAR_CONTACTO.sql" />
+    <Content Include="DDBB_Scripts\05_pr_borrar_contacto.sql" />
+    <Content Include="DDBB_Scripts\06_pr_editar_contactos.sql" />
+    <Content Include="DDBB_Scripts\07_pr_insertar_contacto.sql" />
+    <Content Include="DDBB_Scripts\08_pr_obtener_contactos.sql" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
