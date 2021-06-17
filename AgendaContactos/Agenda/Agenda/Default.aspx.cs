@@ -151,6 +151,19 @@ namespace Agenda
             }
         }
 
+        protected void LimpiarFiltros(Object sender, EventArgs e)
+        {
+            inicializarFiltro();
+            inputNombre.Value = "";
+            selPais.Value = "-1";
+            inputLocal.Value = "";
+            selCinterno.Value = "-1";
+            inputOrg.Value = "";
+            selArea.Value = "10";
+            selActivo.Value = "-1";
+            setDisabled();
+            Application["FiltroExiste"] = false;
+        }
         protected void setDisabled()
         {
             if (selCinterno.Value == "2")
@@ -179,7 +192,8 @@ namespace Agenda
             Application["MsjError"] = "";
 
             //servicio area
-
+            selArea.Items.Clear();
+            selArea.Items.Add(new ListItem("Todas", "10")); //opcion vacio
             String[] Areas = (string[])Application["Areas"];
             for (int i = 0; i < Areas.Length; i++)
             {

@@ -88,7 +88,7 @@
       <%-- Botones --%>
       <div class="form-row"  runat="server">
            <div class="form-group col-md-8"  runat="server">
-               <asp:ImageButton ToolTip="Limpiar Filtros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"  onClientClick="myFunc(); this.form.reset(); return false;" />
+               <asp:ImageButton ToolTip="Limpiar Filtros" OnClick="LimpiarFiltros" runat="server" ID="limpiarFiltrosBtn"  ImageUrl="Images/clearFilter.png"/>  
                <%--CommandName="Limpiar" OnClick="limpiarFiltros" --%>
            </div>  
            <div class="form-group col-md-4"  runat="server">
