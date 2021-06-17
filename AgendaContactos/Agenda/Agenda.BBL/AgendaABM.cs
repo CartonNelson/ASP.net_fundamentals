@@ -50,7 +50,34 @@ namespace Agenda.BBL
                 }
             }
         }
+        //activar pausar 
+        public int? ActivarPausarContacto(int id_contacto, int id_activo)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
 
+                    regAfec = dal.ActivarPausarContacto(transaction, connection, id_contacto, id_activo);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }    
         //Eliminar contacto
         public int? eliminarCont(int id_contacto)
         {

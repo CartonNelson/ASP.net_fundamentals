@@ -178,7 +178,7 @@
                             <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" ID="BtnConsultar" CommandName="DetalleContacto"  OnClick="ConsultarContacto"  runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="EditarContacto" OnClick="EditarContacto" runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClick="eliminarContacto" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar"  CommandName="Activar" runat="server" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
+                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar"  CommandName="Activar" runat="server" OnClick="activarContacto" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

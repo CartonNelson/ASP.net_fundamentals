@@ -55,6 +55,27 @@ namespace DataAccessLayerDB
 
             return registrosAfectados;
         }
+        //Activar pausar
+        
+        public int ActivarPausarContacto(SqlTransaction transaction, SqlConnection connection, int id_contacto, int id_act)
+        {
+            SqlCommand cmd = new SqlCommand
+            {
+                Connection = transaction != null ? transaction.Connection : connection,
+                Transaction = transaction,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "PR_ACTIVAR_PAUSAR_CONTACTO"
+            };
+
+            cmd.Parameters.Add(new SqlParameter() { ParameterName = "@id_contacto", Value = id_contacto, SqlDbType = SqlDbType.Int });
+            cmd.Parameters.Add(new SqlParameter() { ParameterName = "@id_activo", Value = id_act, SqlDbType = SqlDbType.Int });
+
+            int registrosAfectados = cmd.ExecuteNonQuery();
+
+            return registrosAfectados;
+        }
+
+
 
         //Eliminar contacto
         public int EjecutarEliminacion (SqlTransaction transaction, SqlConnection connection, int id_contacto)

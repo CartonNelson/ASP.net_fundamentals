@@ -266,40 +266,41 @@ namespace Agenda
         }
 
         //Activar contacto
-        //protected void activarContacto(Object sender, EventArgs e)
-        //{
-        //    try
-        //    {
+        protected void activarContacto(Object sender, EventArgs e)
+        {
+            try
+            {
 
-        //        ImageButton boton = (ImageButton)sender;
-        //        GridViewRow row = (GridViewRow)boton.DataItemContainer;
+                ImageButton boton = (ImageButton)sender;
+                GridViewRow row = (GridViewRow)boton.DataItemContainer;
 
-        //        //setContactoElegido(row);
-        //        var id_contacto = int.Parse(row.Cells[0].Text);
-        //        var id_activo = int.Parse(row.Cells[13].Text);
-        //        var msj = id_activo == 2 ? "Inactivar" : 
-        //        using (AgendaABM business = new AgendaABM())
-        //        {
-        //            var regAfectados = business.ActivarPausarContacto(id_contacto);
-        //            if (regAfectados == null || regAfectados < 1)
-        //            {
-        //                MostrarError("No se pudo actualizar el Contacto", DANGER);
-        //            }
-        //            else
-        //            {
-        //                MostrarError("Eliminacion coorrecta", SUCCESS);
+                //setContactoElegido(row);
+                var id_contacto = int.Parse(row.Cells[0].Text);
+                var id_activo = int.Parse(row.Cells[13].Text);
+                 
+                using (AgendaABM business = new AgendaABM())
+                {
+                    var regAfectados = business.ActivarPausarContacto(id_contacto, id_activo);
+                    if (regAfectados == null || regAfectados < 1)
+                    {
+                        MostrarError("No se pudo ACTIVAR/PAUSAR el Contacto", DANGER);
+                    }
+                    else
+                    {
+                        EjecutarConsulta();
+                        MostrarError("Actualizacion correcta", SUCCESS);
 
-        //            }
-        //        }
+                    }
+                }
 
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("ERROR en ConsultarContacto", ex);
-        //    }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ERROR en ConsultarContacto", ex);
+            }
 
-        //}
+        }
 
         protected void cargarFiltroBusqueda()
         {
