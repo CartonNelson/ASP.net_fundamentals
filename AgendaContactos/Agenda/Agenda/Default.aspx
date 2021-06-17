@@ -142,7 +142,7 @@
         <asp:GridView   CssClass="table table-condensed table-hover"
                         ID="GridContactos" runat="server" Text="Texto" AutoGenerateColumns="false" RowStyle-HorizontalAlign="Center" UseAccessibleHeader="true"
                          HeaderStyle-CssClass ="TextoConsulta" Width="100%" GridLines="Horizontal" OnRowCommand="GridEventClick" 
-                            AllowPaging="true" OnPageIndexChanging="gdview_PageIndexChanging" PageSize="2">
+                            AllowPaging="true" OnPageIndexChanging="gdview_PageIndexChanging" PageSize="5">
        
                 
                 <Columns>

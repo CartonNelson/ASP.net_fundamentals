@@ -161,7 +161,7 @@
                 if (window.confirm('¿Seguro que desea Actualizar el Contacto?')) {
                     return true;
                 } else {
-                    location.href = "Default.aspx";
+                    
                     return false;
                 }
 

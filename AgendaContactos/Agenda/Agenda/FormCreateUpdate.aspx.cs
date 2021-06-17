@@ -43,7 +43,7 @@ namespace Agenda
                 Titulo = "Editar Contacto";
                 btnAccion.Text = "Guardar";
                 LlenarFormContacto();
-
+                setDisabled();
             }
             else if (Modo == CREACION)
             {
@@ -162,8 +162,22 @@ namespace Agenda
                     }
                 }
             }
-        
-        
+            setDisabled();
+
+        }
+
+        protected void setDisabled()
+        {
+            if (selCinterno.Value == "2")
+            {
+                selArea.Attributes.Remove("disabled");
+                inputOrg.Attributes.Add("disabled", "true");
+            }
+            else
+            {
+                inputOrg.Attributes.Remove("disabled");
+                selArea.Attributes.Add("disabled", "true");
+            }
         }
 
         protected void MostrarError(string msj, string classError)
