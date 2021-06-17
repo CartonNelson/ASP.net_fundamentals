@@ -33,7 +33,7 @@ namespace Agenda
                 {
 
                     inicializarFiltro();
-                    Cache["FiltroExiste"] = false;
+                    RecargarBusqueda((bool)Application["FiltroExiste"]);
 
                 }
                 
@@ -62,10 +62,7 @@ namespace Agenda
                 ErrorContainer.Attributes.CssStyle[HtmlTextWriterStyle.Visibility] = "hidden";
 
                 EjecutarConsulta();
-                if (selCinterno.Value == "2")
-                {
-                    selArea.Attributes.Remove("disabled");
-                }
+                setDisabled();
             }
             else
             {
@@ -93,8 +90,11 @@ namespace Agenda
                     F_ingresoD      = Convert.ToDateTime(inputFingDesde.Value),
                     F_ingresoH      = Convert.ToDateTime(inputFingHasta.Value)
                 };
-                Cache["FiltroBusqueda"] = filter;
-                Cache["FiltroExiste"] = true;
+
+                Filtro filCache = new Filtro();
+                filCache = filter;
+                Application["FiltroBusqueda"] = filCache;
+                Application["FiltroExiste"] = true;
 
                 List<Contacto> contactos =  business.EjecutarConsultaFiltro(filter);
                 GridContactos.DataSource = contactos;
@@ -121,6 +121,50 @@ namespace Agenda
             Application["Modo"] = CREACION;
             Response.Redirect("formCreateUpdate.aspx", false);
         }
+
+
+        public void RecargarBusqueda(bool huboBusqueda)
+        {
+            if (huboBusqueda)
+            {
+                Filtro filCarga = new Filtro();
+                filCarga = (Filtro)Application["FiltroBusqueda"];
+
+                inputNombre.Value = filCarga.apellido_nombre == "&nbsp;" ? " " : filCarga.apellido_nombre;
+                selPais.Value =     filCarga.id_pais.ToString();
+                inputLocal.Value =  filCarga.localidad == "&nbsp;" ? " " : filCarga.localidad; 
+                selCinterno.Value = filCarga.id_cont_int.ToString();
+                inputOrg.Value =    filCarga.organizacion == "&nbsp;" ? " " : filCarga.organizacion;
+                selArea.Value =           filCarga.id_area.ToString();
+                selActivo.Value = filCarga.id_activo.ToString();
+
+                //fechas 
+                String newDateDedsde = filCarga.F_ingresoD.ToString("yyyy-MM-dd");
+                String newDateHasta  = filCarga.F_ingresoH.ToString("yyyy-MM-dd");
+
+                inputFingDesde.Value = newDateDedsde;
+                inputFingHasta.Value = newDateHasta;
+                setDisabled();
+
+                //vuelvo a ejecutar busqueda con filtros precargados
+                EjecutarConsulta();
+            }
+        }
+
+        protected void setDisabled()
+        {
+            if (selCinterno.Value == "2")
+            {
+                selArea.Attributes.Remove("disabled");
+                inputOrg.Attributes.Add("disabled", "true");
+            }
+            else
+            {
+                inputOrg.Attributes.Remove("disabled");
+                selArea.Attributes.Add("disabled", "true");
+            }
+        }
+
 
         public void inicializarFiltro()
         {
@@ -302,22 +346,22 @@ namespace Agenda
 
         }
 
-        protected void cargarFiltroBusqueda()
-        {
-            bool existeFiltro = (bool)Cache["FiltroExiste"];
-            Filtro filter = new Filtro();
-            Cache["FiltroBusqueda"] = filter;
-            if (existeFiltro)
-            {
-                inputNombre.Value = filter.apellido_nombre;
-                selPais.Items.FindByValue(filter.id_pais.ToString()).Selected = true;
-                inputLocal.Value = filter.localidad;
-                selCinterno.Items.FindByValue(filter.id_cont_int.ToString()).Selected = true;
-                inputOrg.Value = filter.organizacion;
-                selArea.Items.FindByValue(filter.id_area.ToString()).Selected = true;
-                selActivo.Items.FindByValue(filter.id_activo.ToString()).Selected = true;
-            }
-        }
+        //protected void cargarFiltroBusqueda()
+        //{
+        //    bool existeFiltro = (bool)Cache["FiltroExiste"];
+        //    Filtro filter = new Filtro();
+        //    Cache["FiltroBusqueda"] = filter;
+        //    if (existeFiltro)
+        //    {
+        //        inputNombre.Value = filter.apellido_nombre;
+        //        selPais.Items.FindByValue(filter.id_pais.ToString()).Selected = true;
+        //        inputLocal.Value = filter.localidad;
+        //        selCinterno.Items.FindByValue(filter.id_cont_int.ToString()).Selected = true;
+        //        inputOrg.Value = filter.organizacion;
+        //        selArea.Items.FindByValue(filter.id_area.ToString()).Selected = true;
+        //        selActivo.Items.FindByValue(filter.id_activo.ToString()).Selected = true;
+        //    }
+        //}
 
         protected void MostrarError(string msj, string classError)
         {

@@ -33,7 +33,7 @@ namespace Agenda
             
             Application["FiltroExiste"] = false;
 
-            //Application["FiltroBusqueda"] = new Filtro();
+            Application["FiltroBusqueda"] = new Filtro();
 
             Application["Modo"] = "";
 
