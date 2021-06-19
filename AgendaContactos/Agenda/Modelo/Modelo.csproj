@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContactosModel.cs" />
+    <Compile Include="ExceptionPrinter.cs" />
+    <Compile Include="DataSetHelper.cs" />
+    <Compile Include="ConecDB.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using Agenda.Entity;
 
 namespace Modelo
 {
-    public class ContactosModel
+    public class Model
     {
 
         

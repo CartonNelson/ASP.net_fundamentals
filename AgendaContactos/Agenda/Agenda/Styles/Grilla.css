@@ -1,0 +1,112 @@
+﻿th {
+    text-align:center;
+}
+/*tr > td, tr > th {
+    text-align: center;
+}*/
+.div-grilla {
+    margin-left:5%;
+    margin-right:5%;
+ 
+}
+/*------------------------------------------*/
+.table-condensed tr th {
+    border: 0px solid #428bca;
+    color: white;
+    background-color: #428bca;
+}
+
+.table-condensed, .table-condensed tr td {
+    border: 0px solid #000;
+}
+
+tr:nth-child(even) {
+    background: #f7fdff
+}
+
+tr:nth-child(odd) {
+    background: #fff;
+}
+
+.hiddencol {
+    display: none;
+} 
+/*------------------------------------------*/
+
+h2{
+    padding-left:15px;
+}
+
+.contGrilla{
+    width :100%;
+}
+
+.hiddencol {
+    display: none;
+}
+
+/*Paginado----------------------------------------------------------*/
+.paginationStyle {
+    /*display: inline-block;*/
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.paginationStyle table > tbody > tr > td {
+        display: inline;
+}
+
+.paginationStyle table > tbody > tr > td > a,
+.paginationStyle table > tbody > tr > td > span {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #dd4814;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    margin-left: -1px;
+}
+
+.paginationStyle table > tbody > tr > td > span {
+    position: relative;
+    float: left;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    margin-left: -1px;
+    z-index: 2;
+    color: #aea79f;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+    cursor: default;
+}
+
+.paginationStyle table > tbody > tr > td:first-child > a,
+.paginationStyle table > tbody > tr > td:first-child > span {
+        margin-left: 0;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+}
+
+.paginationStyle table > tbody > tr > td:last-child > a,
+.paginationStyle table > tbody > tr > td:last-child > span {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+}
+
+.paginationStyle table > tbody > tr > td > a:hover,
+.paginationStyle table > tbody > tr > td > span:hover,
+.paginationStyle table > tbody > tr > td > a:focus,
+.paginationStyle table > tbody > tr > td > span:focus {
+        color: #97310e;
+        background-color: #eeeeee;
+        border-color: #dddddd;
+}
+
+/*    .paginationStyle table > tbody > tr > td > table {
+        margin-left:auto;
+        margin-right:auto;
+    }*/

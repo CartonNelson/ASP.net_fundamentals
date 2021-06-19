@@ -6,119 +6,234 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Agenda.Entity;
+using Modelo;
+using System.Data;
+using System.Data.SqlClient;
+using DataAccessLayerDB;
 
 namespace Agenda.BBL
 {
-    public class AgendaABM : IAgendaBussines
+    public class AgendaABM : IDisposable
     {
+        public SqlConnection connection;
         private List<Contacto> ListaContactos;
-        public AgendaABM(List<Contacto> P_ListaContactos)
+        public AgendaABM()
         {
-            this.ListaContactos = P_ListaContactos;
+           
         }
-        public void Delete(int P_ID)
+        //Creacion de contacto 
+        public int? CrearContacto (Contacto cont)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+
+
+                    regAfec = dal.EjecutarCrearContacto(transaction, connection, cont);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+        //activar pausar 
+        public int? ActivarPausarContacto(int id_contacto, int id_activo)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+
+                    regAfec = dal.ActivarPausarContacto(transaction, connection, id_contacto, id_activo);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }    
+        //Eliminar contacto
+        public int? eliminarCont(int id_contacto)
+        {
+            int? regAfec;
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+
+                    regAfec = dal.EjecutarEliminacion(transaction, connection, id_contacto);
+                    transaction.Commit();
+
+                    return regAfec;
+
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return null;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+        //Actualizacion de contacto 
+        public int? ActualizarContacto(Contacto cont)
+        {
+          int? regAfec;
+                using (DataAccessLayer dal = new DataAccessLayer())
+                {
+                var connection = dal.AbrirConexion();
+                SqlTransaction transaction = connection.BeginTransaction();
+                try
+                    {
+
+
+                        regAfec = dal.EjecutarActualizacionContacto(transaction, connection, cont);
+                        transaction.Commit();
+
+                        return regAfec;
+                    
+                    }catch(Exception e)
+                    {
+                        transaction.Rollback();
+                        return null;
+                     }
+                    finally
+                    {
+                        transaction.Dispose();
+                    }
+                }
+           
+        }
+        
+        
+        
+        //Busqueda de contactos segun filtro
+        public List<Contacto> EjecutarConsultaFiltro(Filtro filter)
         {
 
             try
             {
-                
-                  Contacto ContDel = this.ListaContactos.Find(c => c.ID_contacto.Equals(P_ID));
-                  this.ListaContactos.Remove(ContDel);
-              
-                
+                using (DataAccessLayer dal = new DataAccessLayer())
+                {
+                    var connection = dal.AbrirConexion();
+                    //DataSet ds = dal.EjecutarQueryConPaginado(connection, filter);
+                    
+                    DataSet ds = dal.ConsultarContactosFilter(connection, filter);
+                    return SetDsContactos(ds);
+                }
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception("ERROR GENERAL EN AgendaABM.Delete");
+                throw new Exception("ERROR GENERAL EN AgendaABM.EjecutarConsultaFiltro", e);
             }
-           
             
         }
 
-        //borrado logico
-        public void DeleteL(int P_cont)
-        {
-            throw new Exception("error forzado");
-        }
-        public Contacto GetContactByID(int P_ID)
+        //Setear DS con contactos
+        private List<Contacto> SetDsContactos(DataSet ds)
         {
             try
             {
-                
-                return this.ListaContactos.First(p => p.ID_contacto.Equals(P_ID));
-                
-            }
-            catch
-            {
-                throw new Exception("ERROR GENERAL EN AgendaABM.GetContactByID");
-            }
-        }
-        public List<Contacto> GetAllContacts()
-        {
+                List<Contacto> list = new List<Contacto>();
 
-            try
-            {
-
-                    return this.ListaContactos.OrderBy(p => p.ID_contacto).ToList();
-              
-            }
-            catch
-            {
-                throw new Exception("ERROR GENERAL EN AgendaABM.GetAllContacts");
-            }
-
-        }
-
-        //Por el momento realiozo la busqueda para Apellido y nombre
-        public List<Contacto> GetListContactFilter(Filtro P_Filtro)
-        {
-
-            try
-            {
-                if (!string.IsNullOrEmpty(P_Filtro.ApellidoNombre))
+                if (DataSetHelper.HasRecords(ds))
                 {
-                    return this.ListaContactos.FindAll(p => p.ApellidoNombre.Contains(P_Filtro.ApellidoNombre)).OrderBy(p => p.ID_contacto).ToList();
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        list.Add(MapContacto(row));
+                    }
+                    return list;
                 }
                 else
                 {
-                    return this.ListaContactos.OrderBy(p => p.ID_contacto).ToList();
+                    return null;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception("ERROR GENERAL EN AgendaABM.GetListContact");
+                throw new Exception("ERROR GENERAL EN AgendaABM.SetDsContactos", e);
             }
-            
+
         }
 
-        public Contacto Insert(Contacto P_cont)
+        private static Contacto MapContacto(DataRow row)
         {
             try
             {
-                P_cont.ID_contacto = (ListaContactos.Max(p => p.ID_contacto) + 1);
-                this.ListaContactos.Add(P_cont);
+                return new Contacto
+                {
+                    id_contacto = Convert.ToInt32(row["id_contacto"]),
+                    apellido_nombre = Convert.ToString(row["apellido_nombre"]),
+                    d_genero = Convert.ToString(row["d_genero"]),
+                    id_genero = Convert.ToInt32(row["id_genero"]),
+                    d_pais = Convert.ToString(row["d_pais"]),
+                    id_pais = Convert.ToInt32(row["id_pais"]),
+                    localidad = Convert.ToString(row["localidad"]),
+                    d_con_int = Convert.ToString(row["d_con_int"]),
+                    id_cont_int = Convert.ToInt32(row["id_cont_int"]),
+                    organizacion = Convert.ToString(row["organizacion"]),
+                    d_area = Convert.ToString(row["d_area"]),
+                    id_area= Convert.ToInt32(row["id_area"]),
+                    d_activo = Convert.ToString(row["d_activo"]),
+                    id_activo = Convert.ToInt32(row["id_activo"]),
 
-                return P_cont;
+                    direccion = Convert.ToString(row["direccion"]),
+                    tel_fijo = Convert.ToString(row["tel_fijo"]),
+                    tel_cel = Convert.ToString(row["tel_cel"]),
+                    e_mail = Convert.ToString(row["e_mail"]),
+                    skype = Convert.ToString(row["skype"]),
+                    fecha_ingreso = Convert.ToDateTime(row["fecha_ingreso"])
+
+                    //id_area = Convert.ToInt32(row["EmpresaId"]) ? null : (int?)Convert.ToInt32(row["EmpresaId"])
+                };
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception("ERROR GENERAL EN AgendaABM.Insert");
+                throw new Exception("ERROR GENERAL EN AgendaABM.MapContacto", e);
             }
+
         }
 
-        public void Update(Contacto P_cont)
+
+        //cerrar conexion
+        public void Dispose()
         {
-            try
-            {
-                this.ListaContactos.Remove(P_cont);
-                this.ListaContactos.Add(P_cont);
-            }
-            catch
-            {
-                throw new Exception("ERROR GENERAL EN AgendaABM.Update");
-            }
            
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
+        
 
     }
 }

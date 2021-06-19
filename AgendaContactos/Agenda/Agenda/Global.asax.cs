@@ -13,20 +13,28 @@ namespace Agenda
 {
     public class Global : HttpApplication
     {
+       
         void Application_Start(object sender, EventArgs e)
         {
             // Código que se ejecuta al iniciar la aplicación
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Inicializo modelo de datos 
-            List<Contacto> Contactos = new List<Contacto>();
-            ContactosModel model = new ContactosModel();
 
-            Contactos = model.Crear();
-
-            Application["ContactList"] = Contactos;
             Application["ID_Contacts"] = 0;
+
+            Application["MsjError"] ="";
+            
+            Application["FiltroExiste"] = false;
+
+            Application["FiltroBusqueda"] = new Filtro();
+
+            Application["Modo"] = "";
+
+            //obtengo areas
+            appservicesareas.Areas areasService = new appservicesareas.Areas();
+            String[] AreasListSrv = areasService.getAreas();
+            Application["Areas"] = AreasListSrv;
 
         }
     }
