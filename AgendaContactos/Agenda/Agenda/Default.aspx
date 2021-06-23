@@ -165,12 +165,13 @@
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_activo" DataField="id_activo" />
                     <asp:BoundField HeaderText="Activo" DataField="d_activo" />
 
-                    <asp:BoundField HeaderText="CUIL" DataField="CUIL" />
+                    
                     <asp:BoundField HeaderText="Direcc." DataField="direccion" />
                     <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Tel_fijo" />
                     <asp:BoundField HeaderText="Tel. Celular" DataField="tel_cel" />
                     <asp:BoundField HeaderText="Email" DataField="e_mail" />
                     <asp:BoundField HeaderText="Cuenta Skype" DataField="skype" />
+                    <asp:BoundField HeaderText="CUIL" DataField="CUIL" />
                     <%-- Acciones --%>
                     <asp:TemplateField HeaderText="Acciones">
                         <ItemTemplate>
