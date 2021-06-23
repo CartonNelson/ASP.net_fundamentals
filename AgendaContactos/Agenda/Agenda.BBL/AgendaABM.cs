@@ -10,7 +10,7 @@ using Modelo;
 using System.Data;
 using System.Data.SqlClient;
 using DataAccessLayerDB;
-
+using Agenda;
 namespace Agenda.BBL
 {
     public class AgendaABM : IDisposable
@@ -191,6 +191,13 @@ namespace Agenda.BBL
         {
             try
             {
+                //obtengo cuil por servicio
+                ServiceCUIL.ServiceClient CUILsrv = new ServiceCUIL.ServiceClient();
+                string paramApeNomb = Convert.ToString(row["apellido_nombre"]);
+                int paramIdGenero = Convert.ToInt32(row["id_genero"]);
+                
+                String obtCUIL = CUILsrv.getCuil(paramApeNomb, paramIdGenero);
+
                 return new Contacto
                 {
                     id_contacto = Convert.ToInt32(row["id_contacto"]),
@@ -204,7 +211,7 @@ namespace Agenda.BBL
                     id_cont_int = Convert.ToInt32(row["id_cont_int"]),
                     organizacion = Convert.ToString(row["organizacion"]),
                     d_area = Convert.ToString(row["d_area"]),
-                    id_area= Convert.ToInt32(row["id_area"]),
+                    id_area = Convert.ToInt32(row["id_area"]),
                     d_activo = Convert.ToString(row["d_activo"]),
                     id_activo = Convert.ToInt32(row["id_activo"]),
 
@@ -213,9 +220,11 @@ namespace Agenda.BBL
                     tel_cel = Convert.ToString(row["tel_cel"]),
                     e_mail = Convert.ToString(row["e_mail"]),
                     skype = Convert.ToString(row["skype"]),
-                    fecha_ingreso = Convert.ToDateTime(row["fecha_ingreso"])
+                    fecha_ingreso = Convert.ToDateTime(row["fecha_ingreso"]),
 
                     //id_area = Convert.ToInt32(row["EmpresaId"]) ? null : (int?)Convert.ToInt32(row["EmpresaId"])
+                    CUIL = obtCUIL
+
                 };
             }
             catch (Exception e)

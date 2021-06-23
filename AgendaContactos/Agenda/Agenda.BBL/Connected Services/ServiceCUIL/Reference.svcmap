@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="923d473d-e0da-4657-9647-e5d09b54a5c1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:53661/WFCServiceCUIL.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="WFCServiceCUIL.xsd" MetadataType="Schema" ID="c3970e10-c3ae-4000-9ace-d49a4b9b3903" SourceId="1" SourceUrl="http://localhost:53661/WFCServiceCUIL.svc?xsd=xsd2" />
+    <MetadataFile FileName="WFCServiceCUIL.disco" MetadataType="Disco" ID="c2358ceb-f98d-413b-807d-b4c5985e3ffe" SourceId="1" SourceUrl="http://localhost:53661/WFCServiceCUIL.svc?disco" />
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="177f2ff6-b22a-4c38-97af-9807dabd8271" SourceId="1" SourceUrl="http://localhost:53661/WFCServiceCUIL.svc?wsdl" />
+    <MetadataFile FileName="WFCServiceCUIL1.xsd" MetadataType="Schema" ID="cafd2650-c25c-4cbe-a9d1-a8dc3a4e7833" SourceId="1" SourceUrl="http://localhost:53661/WFCServiceCUIL.svc?xsd=xsd0" />
+    <MetadataFile FileName="WFCServiceCUIL2.xsd" MetadataType="Schema" ID="f257ae45-430e-4c95-a2c1-31ad4af5848d" SourceId="1" SourceUrl="http://localhost:53661/WFCServiceCUIL.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

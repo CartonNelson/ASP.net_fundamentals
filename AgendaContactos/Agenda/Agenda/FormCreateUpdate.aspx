@@ -13,11 +13,14 @@
         <div runat="server" class="container">
     <br />
     <form   id="ABMForm">
+
+       
+
       <%-- Nivel 1 --%>  
       <div runat="server" class="form-row">
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="inputNombre">Apellido y Nombre</asp:label>
-          <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="">
+          <input runat="server" type="text" class="form-control" id="inputNombre" placeholder="" onchange="obtCUIL();" >
              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidatorUserName"   runat="server"   ControlToValidate="inputNombre"
                                         Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />          
 
@@ -25,9 +28,9 @@
          
         <div runat="server" class="form-group col-md-4">
           <asp:label runat="server" for="selGenero">Genero</asp:label>
-             <select runat="server" class="form-control" id="selGenero">
-                <option value="1">Masculino</option>
-                <option value="2">Femenino</option>
+             <select runat="server" class="form-control" id="selGenero"  OnSelectedIndexChanged="GetCUIL"  onchange="obtCUIL();">
+                <option  value="1">Masculino</option>
+                <option  value="2">Femenino</option>
              </select>
             
         </div>
@@ -99,10 +102,9 @@
              <div runat="server" class="form-group col-md-4">
               <asp:label  runat="server" for="inpEmail" ID="EmailLbl">Email</asp:label>
               <input type="text" runat="server"  class="form-control" id="inpEmail" aria-describedby="emailHelp">
-              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidator2"   runat="server"   ControlToValidate="inpEmail"
-                                            Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />
-              
-                 <asp:CustomValidator ValidationGroup="ValidarCampos"  ID="EmailValidator"  OnServerValidate="ValidarEmail" ControlToValidate="inpEmail"  runat="server"></asp:CustomValidator>                
+              <asp:RequiredFieldValidator ValidationGroup="ValidarCampos" ID="RequiredFieldValidator2"   runat="server"  ControlToValidate="inpEmail" Display="Dynamic" SetFocusOnError="True" CssClass="alert-text" />                                   
+                 
+              <asp:CustomValidator ValidationGroup="ValidarCampos"  ID="EmailValidator"  OnServerValidate="ValidarEmail" ControlToValidate="inpEmail"  runat="server"></asp:CustomValidator>                
 
              </div>
           </div>
@@ -111,6 +113,12 @@
              <div runat="server" class="form-group col-md-4">
                <asp:label  runat="server" for="Skype" ID="SkypeLbl">Skype</asp:label>
                <input  runat="server" type="text" class="form-control" id="Skype" placeholder="">
+             </div>
+           </div>
+          <div runat="server" class="form-row">
+             <div runat="server" class="form-group col-md-4">
+               <asp:label  runat="server" for="CUIL" ID="labelCUIL">CUIL</asp:label>
+               <input  runat="server" type="text" class="form-control" id="CUIL" placeholder="" disabled>
              </div>
            </div>
       </div>
@@ -125,8 +133,18 @@
      <div runat="server" class="col-md-8">
                 </div>
            <div class="col-md-4"  runat="server">
-               <asp:Button id="btnAccion"  ValidationGroup="ValidarCampos"  runat="server"  class="btn btn-success" Text="Guardar"   onClick="Accion" OnClientClick="return confirmar(this);"></asp:Button>
+               <asp:Button id="btnAccion"  ValidationGroup="ValidarCampos"  runat="server"  class="btn btn-success" Text="Guardar"  onClick="Accion" OnClientClick="return confirmar(this);"></asp:Button>
                <asp:Button runat="server" type="submit" class="btn btn-primary" Text="Salir" OnClick="VolverAinicio"></asp:Button>
+
+           </div> 
+    
+ </div>
+     <div runat="server" class="container">
+ 
+     
+           <div class="col-md-4"  runat="server">
+               
+               <asp:Button runat="server"  id="btnCUIL" class="btn btn-primary" Text="CUIL" OnClick="GetCUIL" cssclass="hiddencol" ></asp:Button>
 
            </div> 
     
@@ -136,8 +154,7 @@
         <div id="ErrorContainer" runat="server" class="alert alert-danger" role="alert">
           <p><%=Application["MsjError"]%></p> 
         </div>
-
-       <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"  DisplayMode="BulletList" ShowMessageBox="true" ShowSummary="false" CssClass="alert alert-danger" />
+       <asp:ValidationSummary ValidationGroup="ValidarCampos" runat="server" ID="ValidationSummary" HeaderText="Existen campos requeridos no ingresados"   ShowMessageBox="True" ShowSummary="true" CssClass="alert alert-danger" />
     </div>
     <script>
         function ConInternoAction(conInterno) {
@@ -172,6 +189,11 @@
                     return false;
                 }
             }
+        }
+        function obtCUIL() {
+             
+            $('#<%=btnCUIL.ClientID%>').click();
+            
         }
     </script>
  </asp:Content>   

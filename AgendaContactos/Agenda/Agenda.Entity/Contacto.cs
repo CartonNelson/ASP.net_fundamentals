@@ -21,6 +21,7 @@ namespace Agenda.Entity
         public String d_con_int { get; set; }
         public String d_area { get; set; }
         public String d_activo { get; set; }
+        public String CUIL { get; set; }
 
         //constructor para iniciar contactos con ID
         public Contacto(int P_ID, String P_ApellidoNombre, String P_Genero, String P_Pais)

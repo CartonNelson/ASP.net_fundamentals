@@ -4,14 +4,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda", "Agenda\Agenda.csproj", "{3EF5B579-80C3-4F80-A3CE-4AB77CDBD36C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7343BC5F-47A4-4F16-B966-C999A840DE48} = {7343BC5F-47A4-4F16-B966-C999A840DE48}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness", "Agenda.BBL\Bussiness.csproj", "{9195E86E-DD60-4A4F-AB0F-5ADE8CFBE7F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7343BC5F-47A4-4F16-B966-C999A840DE48} = {7343BC5F-47A4-4F16-B966-C999A840DE48}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Agenda.Entity\Entity.csproj", "{D0B61E61-2189-48F1-BFA8-4DA43E6E9264}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelo", "Modelo\Modelo.csproj", "{AC5D2C08-CF25-467E-BBE7-4CF9357AE3DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayerDB", "DataAccessLayerDB\DataAccessLayerDB.csproj", "{7E405CCE-A06E-4E0D-B3F7-2EF0C4915055}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFServiceCUIL", "WCFServiceCUIL\", "{7343BC5F-47A4-4F16-B966-C999A840DE48}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53661"
+		Debug.AspNetCompiler.PhysicalPath = "WCFServiceCUIL\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53661\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53661"
+		Release.AspNetCompiler.PhysicalPath = "WCFServiceCUIL\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53661\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "53661"
+		SlnRelativePath = "WCFServiceCUIL\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +67,10 @@ Global
 		{7E405CCE-A06E-4E0D-B3F7-2EF0C4915055}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E405CCE-A06E-4E0D-B3F7-2EF0C4915055}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E405CCE-A06E-4E0D-B3F7-2EF0C4915055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7343BC5F-47A4-4F16-B966-C999A840DE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7343BC5F-47A4-4F16-B966-C999A840DE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7343BC5F-47A4-4F16-B966-C999A840DE48}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7343BC5F-47A4-4F16-B966-C999A840DE48}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

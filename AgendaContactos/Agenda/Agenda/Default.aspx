@@ -165,6 +165,7 @@
                     <asp:BoundField  ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol" HeaderText="id_activo" DataField="id_activo" />
                     <asp:BoundField HeaderText="Activo" DataField="d_activo" />
 
+                    <asp:BoundField HeaderText="CUIL" DataField="CUIL" />
                     <asp:BoundField HeaderText="Direcc." DataField="direccion" />
                     <asp:BoundField HeaderText="Tel. Fijo-Iterno" DataField="Tel_fijo" />
                     <asp:BoundField HeaderText="Tel. Celular" DataField="tel_cel" />
@@ -176,7 +177,7 @@
                             <asp:ImageButton ToolTip="Consultar"  ImageUrl="/Images/zoom.png" ID="BtnConsultar" CommandName="DetalleContacto"  OnClick="ConsultarContacto"  runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Editar" ImageUrl="/Images/edit.png" ID="BtnEditar" CommandName="EditarContacto" OnClick="EditarContacto" runat="server"></asp:ImageButton>
                             <asp:ImageButton ToolTip="Eliminar" ImageUrl="/Images/delete.png" ID="BtnEliminar" OnClick="eliminarContacto" OnClientClick ="return window.confirm('¿Seguro que desea Eliminar el Contacto?');" CommandName="Eliminar" runat="server"></asp:ImageButton>
-                            <asp:ImageButton ToolTip="Pausar/Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar"  CommandName="Activar" runat="server" OnClick="activarContacto" OnClientClick ="return window.confirm('¿Seguro que desea Actualizar el Contacto?');"></asp:ImageButton>          
+                            <asp:ImageButton ToolTip="Activar" ImageUrl="/Images/play_pause.png" ID="BtnActivar"  CommandName="Activar" runat="server" OnClick="activarContacto" OnClientClick ="return ActivarPausar(this);"></asp:ImageButton>         
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -191,7 +192,16 @@
 
         </style>
     </div>
- 
+    <script >
+        function ActivarPausar(btn) {
+
+            if (btn.title == 'Activar') {
+                return window.confirm('¿Seguro que desea ACTIVAR el Contacto?');
+            } else {
+                return window.confirm('¿Seguro que desea PAUSAR el Contacto?');
+            }
+        }
+    </script>
  
 </asp:Content>
 

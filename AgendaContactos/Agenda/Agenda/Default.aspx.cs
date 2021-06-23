@@ -33,7 +33,8 @@ namespace Agenda
 
                     inicializarFiltro();
                     RecargarBusqueda((bool)Application["FiltroExiste"]);
-
+                    //        
+                    
                 }
 
             }
@@ -99,6 +100,9 @@ namespace Agenda
                     if (row.Cells[14].Text == "SI") {
                         ImageButton columnaImagen = (ImageButton)row.FindControl("BtnActivar");
                         columnaImagen.ImageUrl = "/Images/anular.png";
+                        
+                        columnaImagen.ToolTip = "Pausar";
+                        columnaImagen.CommandName = "Pausar";
                     }
                     row.Cells[12].Text = row.Cells[12].Text.Substring(0, 10); //parseo fecha
                 }
@@ -301,7 +305,7 @@ namespace Agenda
                     else
                     {
                         EjecutarConsulta();
-                        MostrarError("Eliminacion coorrecta", SUCCESS);
+                        MostrarError("Eliminacion correcta", SUCCESS);
                         
 
                     }
@@ -333,12 +337,28 @@ namespace Agenda
                     var regAfectados = business.ActivarPausarContacto(id_contacto, id_activo);
                     if (regAfectados == null || regAfectados < 1)
                     {
-                        MostrarError("No se pudo ACTIVAR/PAUSAR el Contacto", DANGER);
+                        if(boton.CommandName == "Activar")
+                        {
+                            MostrarError("No se pudo ACTIVAR el Contacto", DANGER);
+                        }
+                        else
+                        {
+                            MostrarError("No se pudo PAUSAR el Contacto", DANGER);
+                        }
+                        
                     }
                     else
                     {
                         EjecutarConsulta();
-                        MostrarError("Actualizacion correcta", SUCCESS);
+                        if (boton.CommandName == "Activar")
+                        {
+                            MostrarError("El contacto se ACTIVO correctamente", SUCCESS);
+                        }
+                        else
+                        {
+                            MostrarError("El contacto se PAUSO correctamente", SUCCESS);
+                        }
+                        
 
                     }
                 }

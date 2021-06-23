@@ -30,6 +30,7 @@ namespace Agenda
                 inicializarForm();
                 AjustarSegunModo((String)Application["Modo"]);
                 
+
             }           
 
         }
@@ -41,6 +42,9 @@ namespace Agenda
                 btnAccion.Text = "Guardar";
                 LlenarFormContacto();
                 setDisabled();
+
+                GetCUIL(btnCUIL, new EventArgs());
+
             }
             else if (Modo == CREACION)
             {
@@ -52,10 +56,11 @@ namespace Agenda
             {
                 Titulo = "Consultar Contacto";
                 
-                
+
                 LlenarFormContacto();
                 DeshabilitarCampos();
-               
+
+                GetCUIL(btnCUIL, new EventArgs());
 
 
             }
@@ -118,9 +123,31 @@ namespace Agenda
 
 
         }
+        
 
-        //Insertar-Actualizar contacto
-        protected void Accion(Object sender, EventArgs e)
+        //obtener cuil con servicio ALTA
+        protected void GetCUIL(Object sender, EventArgs e)
+        {
+            string apellidoNombre = inputNombre.Value;
+
+            if (!String.IsNullOrEmpty(apellidoNombre))
+            {
+                
+                int id_genero = int.Parse(selGenero.Value);
+                ServiceCUIL.ServiceClient CUILsrv = new ServiceCUIL.ServiceClient();
+
+                CUIL.Value = CUILsrv.getCuil(apellidoNombre, id_genero);
+            }
+            else
+            {
+                CUIL.Value = "";
+            }
+           
+        }
+
+
+            //Insertar-Actualizar contacto
+            protected void Accion(Object sender, EventArgs e)
         {
             limpiarError();
 
@@ -255,15 +282,15 @@ namespace Agenda
             }
             else
             {
-                if(inpEmail.Value.Length == 0)
-                {
-                    MostrarError("Falta completar el campo EMAIL", DANGER);
-                    Email.IsValid = false;
-                }
-                else
-                {
+                //if(inpEmail.Value.Length == 0)
+                //{
+                //    MostrarError("Falta completar el campo EMAIL", DANGER);
+                //    Email.IsValid = false;
+                //}
+                //else
+                //{
                     Email.IsValid = true;
-                }
+                //}
                
             }
 
